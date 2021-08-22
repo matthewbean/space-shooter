@@ -2,7 +2,7 @@ import Entity from './Entities'
 import EnemyLaser from './EnemyLaser'
 export default class GunShip extends Entity {
     constructor(scene, x, y) {
-      super(scene, x, y, 'enemy-ships', 'gunShip', 24);
+      super(scene, x, y, 'enemy-ships', 'gunShip', 24, [83, 86]);
       
       this.body.velocity.x = Phaser.Math.Between(-50, -100);
       this.hp = 5;

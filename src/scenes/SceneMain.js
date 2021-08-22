@@ -2,6 +2,8 @@ import CarrierShip from '../entities/CarrierShip'
 import ChaserShip from '../entities/ChaserShip'
 import Player from '../entities/Player'
 import GunShip from '../entities/GunShip'
+import Burner from '../entities/Burner'
+import Explosion from '../entities/Explosion'
 import SpinningGunShip from '../entities/SpinningGunShip'
 import HP from '../hud/HP'
 export default class SceneMain extends Phaser.Scene {
@@ -40,6 +42,10 @@ export default class SceneMain extends Phaser.Scene {
             './assets/background.png',
             { frameWidth: 128, frameHeight: 256 }
         );  
+    this.load.spritesheet('misc', 
+            './assets/misc.png',
+            { frameWidth: 8, frameHeight: 8 }
+        );  
         this.load.setPath('./assets/sounds')
       //load music and sound effects
       this.load.audio('player-laser', ['player-laser-1.wav']);  
@@ -48,7 +54,6 @@ export default class SceneMain extends Phaser.Scene {
   }
   
   create() {
-    
     
     for (let i = 4; i<6; i++){
       let element = this.add.tileSprite(this.game.config.height * 0.5,this.game.config.width * 0.5,this.game.config.width,(this.game.config.height*2+(i-4)*this.game.config.width*3),'background',i)
@@ -85,7 +90,6 @@ export default class SceneMain extends Phaser.Scene {
     ) {
       
       if (enemy) {
-        console.log(playerLaser.damageAmount)
         enemy.flicker()
         enemy.damage(true, playerLaser.damageAmount);
         playerLaser.destroy();
@@ -116,7 +120,7 @@ export default class SceneMain extends Phaser.Scene {
       }
     });
     this.time.addEvent({
-      delay: 2500,
+      delay: 1500,
       callback: function () {
         var enemy = null;
 

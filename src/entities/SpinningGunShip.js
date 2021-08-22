@@ -2,7 +2,7 @@ import Entity from './Entities'
 import EnemyLaser from './EnemyLaser'
 export default class SpinningGunShip extends Entity {
     constructor(scene, x, y) {
-      super(scene, x, y, 'enemy-ships', 'SpinningGunShip', 13);
+      super(scene, x, y, 'enemy-ships', 'SpinningGunShip', 13, [83, 86]);
       this.body.velocity.x = Phaser.Math.Between(-200, -300);
       this.states = {
         MOVE_LEFT: 'MOVE_LEFT',
