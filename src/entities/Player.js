@@ -18,7 +18,7 @@ export default class Player extends Entity {
       this.setData('timerShootDelay', 10);
       this.setData('timerShootTick', this.getData('timerShootDelay') - 1);
 
-      this.blaster = this.scene.sound.add('player-laser', {volume:.4})
+      this.blaster = this.scene.sound.add('player-laser', {volume:.2})
 
       this.keyW =  this.scene.input.keyboard.addKey('W');
       this.keyA =  this.scene.input.keyboard.addKey('A');

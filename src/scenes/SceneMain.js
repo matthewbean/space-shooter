@@ -2,8 +2,6 @@ import CarrierShip from '../entities/CarrierShip'
 import ChaserShip from '../entities/ChaserShip'
 import Player from '../entities/Player'
 import GunShip from '../entities/GunShip'
-import Burner from '../entities/Burner'
-import Explosion from '../entities/Explosion'
 import SpinningGunShip from '../entities/SpinningGunShip'
 import HP from '../hud/HP'
 export default class SceneMain extends Phaser.Scene {
@@ -49,7 +47,10 @@ export default class SceneMain extends Phaser.Scene {
         this.load.setPath('./assets/sounds')
       //load music and sound effects
       this.load.audio('player-laser', ['player-laser-1.wav']);  
-      this.load.audio('explosion', ['explosion.wav']);  
+      this.load.audio('explosion-1', ['explosion-1.wav']);  
+      this.load.audio('explosion-2', ['explosion-2.wav']);  
+      this.load.audio('explosion-3', ['explosion-3.wav']);  
+      this.load.audio('explosion-4', ['explosion-4.wav']);  
       this.load.audio('soundtrack', ['neon-trip.mp3']);  
 
   }
