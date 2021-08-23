@@ -49,12 +49,13 @@ export default class SceneMain extends Phaser.Scene {
         this.load.setPath('./assets/sounds')
       //load music and sound effects
       this.load.audio('player-laser', ['player-laser-1.wav']);  
+      this.load.audio('explosion', ['explosion.wav']);  
       this.load.audio('soundtrack', ['neon-trip.mp3']);  
 
   }
   
   create() {
-    
+    //create background
     for (let i = 4; i<6; i++){
       let element = this.add.tileSprite(this.game.config.height * 0.5,this.game.config.width * 0.5,this.game.config.width,(this.game.config.height*2+(i-4)*this.game.config.width*3),'background',i)
       element.angle = 90
@@ -68,14 +69,14 @@ export default class SceneMain extends Phaser.Scene {
     });
     
     }
-
+    
     this.player = new Player(
       this,
       20,
       this.game.config.height * 0.5
     );
     this.health= new HP(this, 50,50, 15)
-    this.soundtrack = this.sound.add('soundtrack')
+    this.soundtrack = this.sound.add('soundtrack', {volume:.5})
     this.soundtrack.play()
     
 
@@ -103,10 +104,11 @@ export default class SceneMain extends Phaser.Scene {
       if (!player.getData('isDead') && !enemy.getData('isDead')) {
         player.damage(false, enemy.damageAmount);
         player.flicker()
+        this.cameras.main.shake(100, .005);
         enemy.hp=1;
         enemy.damage(true, player.damageAmount);
       }
-    });
+    }.bind(this));
 
     this.physics.add.overlap(this.player, this.enemyLasers, function (
       player,
@@ -115,10 +117,12 @@ export default class SceneMain extends Phaser.Scene {
       if (!player.getData('isDead') && !laser.getData('isDead')) {
         player.flicker()
         player.damage(false, laser.damageAmount);
-        
+        this.cameras.main.shake(100, .005);
         laser.destroy();
       }
-    });
+    }.bind(this));
+    this.input.on('pointerdown', function () {
+  }, this);
     this.time.addEvent({
       delay: 1500,
       callback: function () {
