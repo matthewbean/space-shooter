@@ -57,6 +57,7 @@ export default class SceneMain extends Phaser.Scene {
   
   create() {
     //create background
+    
     for (let i = 4; i<6; i++){
       let element = this.add.tileSprite(this.game.config.height * 0.5,this.game.config.width * 0.5,this.game.config.width,(this.game.config.height*2+(i-4)*this.game.config.width*3),'background',i)
       element.angle = 90

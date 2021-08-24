@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import PhaserRaycaster from 'phaser-raycaster'
 import SceneMain from './scenes/SceneMain'
+import Settings from './scenes/Settings'
 import SceneGameOver from './scenes/SceneGameOver'
 import SceneMainMenu from './scenes/SceneMainMenu'
 var config = {
@@ -15,7 +16,7 @@ var config = {
       },
       gravity: { x: 0, y: 0 },
     },
-    scene: [SceneMainMenu, SceneMain, SceneGameOver],
+    scene: [SceneMainMenu, Settings, SceneMain, SceneGameOver],
     plugins: {
       scene: [
           {
