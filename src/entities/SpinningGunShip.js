@@ -10,7 +10,7 @@ export default class SpinningGunShip extends Entity {
         COOLDOWN: 'COOLDOWN'
       };
       this.damageAmount=1
-      this.hp = 10;
+      this.hp = 35;
       this.rays = []
       this.setScale(3)
       this.state = this.states.MOVE_LEFT;

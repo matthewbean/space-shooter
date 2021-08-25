@@ -4,6 +4,7 @@ import SceneMain from './scenes/SceneMain'
 import Settings from './scenes/Settings'
 import SceneGameOver from './scenes/SceneGameOver'
 import SceneMainMenu from './scenes/SceneMainMenu'
+import CharacterSelect from './scenes/CharacterSelect'
 var config = {
     type: Phaser.WEBGL,
     width: 800,
@@ -16,7 +17,7 @@ var config = {
       },
       gravity: { x: 0, y: 0 },
     },
-    scene: [SceneMainMenu, Settings, SceneMain, SceneGameOver],
+    scene: [SceneMainMenu, Settings, CharacterSelect,SceneMain, SceneGameOver],
     plugins: {
       scene: [
           {

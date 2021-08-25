@@ -55,9 +55,13 @@ export default class SceneMain extends Phaser.Scene {
 
   }
   
-  create() {
+  create(data) {
     //create background
-    
+    this.settings=JSON.parse(localStorage.getItem('settings')) ??{
+      music:1,
+      sfx:1,
+      cameraShake:true
+    }    
     for (let i = 4; i<6; i++){
       let element = this.add.tileSprite(this.game.config.height * 0.5,this.game.config.width * 0.5,this.game.config.width,(this.game.config.height*2+(i-4)*this.game.config.width*3),'background',i)
       element.angle = 90
@@ -75,10 +79,11 @@ export default class SceneMain extends Phaser.Scene {
     this.player = new Player(
       this,
       20,
-      this.game.config.height * 0.5
+      this.game.config.height * 0.5,
+      data.character
     );
     this.health= new HP(this, 50,50, 15)
-    this.soundtrack = this.sound.add('soundtrack', {volume:.5})
+    this.soundtrack = this.sound.add('soundtrack', {volume: this.settings.music })
     this.soundtrack.play()
     
 
@@ -106,7 +111,7 @@ export default class SceneMain extends Phaser.Scene {
       if (!player.getData('isDead') && !enemy.getData('isDead')) {
         player.damage(false, enemy.damageAmount);
         player.flicker()
-        this.cameras.main.shake(100, .005);
+        if (this.settings.cameraShake){this.cameras.main.shake(100, .005);}
         enemy.hp=1;
         enemy.damage(true, player.damageAmount);
       }
@@ -119,7 +124,7 @@ export default class SceneMain extends Phaser.Scene {
       if (!player.getData('isDead') && !laser.getData('isDead')) {
         player.flicker()
         player.damage(false, laser.damageAmount);
-        this.cameras.main.shake(100, .005);
+        if (this.settings.cameraShake){this.cameras.main.shake(100, .005);}
         laser.destroy();
       }
     }.bind(this));

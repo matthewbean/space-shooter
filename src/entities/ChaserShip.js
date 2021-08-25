@@ -3,7 +3,7 @@ import Entity from './Entities'
 export default class ChaserShip extends Entity {
     constructor(scene, x, y) {
       super(scene, x, y, 'projectiles', 'ChaserShip', 22, [83, 86]);
-      this.hp = 5;
+      this.hp = 25;
       this.body.setSize(6,6)
       this.setScale(4)
       this.damageAmount=1

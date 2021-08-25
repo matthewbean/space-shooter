@@ -77,7 +77,7 @@ export default class Settings extends Phaser.Scene {
     this.menuItems= [{text:'Music:', name:'music', value:this.settings.music, displayValue:this.settings.music*10, onSelect: ()=>this.handleNumberChange(0)},
     {text:'SFX:', name:'sfx', value:this.settings.sfx, displayValue:this.settings.sfx*10, onSelect: ()=>this.handleNumberChange(1)},
     {text:'Camera Shake:', name:'cameraShake', value:this.settings.cameraShake, displayValue:this.settings.cameraShake?'ON':'OFF', onSelect: ()=>this.handleBooleanChange(2)},
-    {text:'Done:', name:'done', value:null, displayValue:'', onSelect: ()=>{this.scene.start('SceneMainMenu',{music:data.music})}}
+    {text:'Done', name:'done', value:null, displayValue:'', onSelect: ()=>{this.scene.start('SceneMainMenu',{music:data.music})}}
     ]
   
 
@@ -151,13 +151,14 @@ export default class Settings extends Phaser.Scene {
             this.menuSelect.setVolume(this.settings.sfx)
             this.menuSelect.play()
         }
-      }
-   
-      
-      this.cursor.y=313+40*this.cursor.getData('position')
+        this.cursor.y=313+40*this.cursor.getData('position')
       this.selectorsValues.forEach((item, i)=>{
           item.text=this.menuItems[i].displayValue
       })
+      }
+   
+      
+      
   
     }
   

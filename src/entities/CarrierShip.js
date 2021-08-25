@@ -4,7 +4,7 @@ import GunShip from './GunShip'
 export default class CarrierShip extends Entity {
     constructor(scene, x, y) {
       super(scene, x, y, 'boss-ships', 'carrierShip', 1, [99, 102]);
-      this.hp = 25;
+      this.hp = 100;
       this.angle = 90
       this.setScale(5)
       this.damageAmount=2

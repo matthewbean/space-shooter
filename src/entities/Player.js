@@ -1,15 +1,17 @@
 import Entity from './Entities'
 import PlayerLaser from './PlayerLaser'
+import Characters from '../utilities/Characters'
 import Burner from './Burner'
 export default class Player extends Entity {
-    constructor(scene, x, y) {
-      super(scene, x, y, 'player-ships', 1,'player', [87, 90]);
-      this.setData('speed', 300);
+    constructor(scene, x, y, choice) {
+      super(scene, x, y, 'player-ships', Characters[choice].startFrame,'player', [87, 90]);
+      this.character=Characters[choice]
+      this.setData('speed', this.character.speed);
       this.setData('canShoot', true)
-      this.hp = 10;
+      this.hp = this.character.hp;
       this.setScale(4)
       this.angle = 90
-      this.damageAmount=1
+      this.damageAmount=this.character.damage
       this.burner= new Burner(this.scene, this.x-20, this.y, 44,47, false, 3)
 
       
@@ -18,7 +20,7 @@ export default class Player extends Entity {
       this.setData('timerShootDelay', 10);
       this.setData('timerShootTick', this.getData('timerShootDelay') - 1);
 
-      this.blaster = this.scene.sound.add('player-laser', {volume:.2})
+      this.blaster = this.scene.sound.add('player-laser', {volume: this.scene.settings.sfx})
 
       this.keyW =  this.scene.input.keyboard.addKey('W');
       this.keyA =  this.scene.input.keyboard.addKey('A');
@@ -28,17 +30,17 @@ export default class Player extends Entity {
 
       this.anims.create({
         key:'straight',
-        frames: [{ key:'player-ships', frame:1 }],
+        frames: [{ key:'player-ships', frame: this.character.startFrame+1 }],
             frameRate:20,
     })
       this.anims.create({
         key:'up',
-        frames: [{ key:'player-ships', frame:0 }],
+        frames: [{ key:'player-ships', frame: this.character.startFrame }],
             frameRate:20,
       })
       this.anims.create({
         key:'down',
-        frames: [{ key:'player-ships', frame:2 }],
+        frames: [{ key:'player-ships', frame: this.character.startFrame+2 }],
             frameRate:20,
     })
                 
