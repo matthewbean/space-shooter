@@ -26,7 +26,7 @@ export default class SceneMainMenu extends Phaser.Scene {
       sfx:1,
       cameraShake:true
     }
-    console.log(this.settings.music)
+    
     //set up sound in music
     if (!data.music){
       this.theLongestYear= this.sound.add('the-longest-year').setVolume(this.settings.music)
