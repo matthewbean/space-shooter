@@ -19,6 +19,7 @@ export default class SceneMainMenu extends Phaser.Scene {
     this.load.audio('the-longest-year', ['the-longest-year.wav']);  
   }
   create(data) {
+    // this.scene.start('SceneMain', {character:1})
     //this.scene.start('CharacterSelect');
     this.settings=JSON.parse(localStorage.getItem('settings')) ??{
       music:1,
