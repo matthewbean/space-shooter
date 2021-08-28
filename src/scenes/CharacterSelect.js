@@ -1,3 +1,4 @@
+import Characters from '../utilities/Characters'
 export default class CharacterSelect extends Phaser.Scene {
     constructor() {
       super({ key: 'CharacterSelect' });
@@ -27,7 +28,7 @@ export default class CharacterSelect extends Phaser.Scene {
           }
           this.menuMove= this.sound.add('menu-move', { volume:this.settings.sfx })
           this.menuSelect= this.sound.add('menu-select', { volume:this.settings.sfx })
-
+          this.graphics = this.add.graphics({ lineStyle: { width: 1, color: 0x000000}, fillStyle: { color: 0xFFFFFF } });
         this.background=this.add.tileSprite(this.game.config.width * 0.5,this.game.config.height * 0.5,this.game.config.height,this.game.config.width,'background',5)
         this.background.angle = 90
         this.time.addEvent({
@@ -50,9 +51,22 @@ export default class CharacterSelect extends Phaser.Scene {
             let character= this.add.image(this.game.config.width*i*.09, 300, 'player-ships', i).setScale(5)
             this.characters.push(character)
         }
-        this.cursor=this.add.image(this.game.config.width*0.09,400,'UI',138).setScale(3)  
+        
+        this.cursor=this.add.image(this.game.config.width*0.09,350,'UI',138).setScale(3)  
         this.cursor.setData('position', 0)
         this.cursor.setData('canMove', true)
+        this.stats=['Health:', 'Attack:', 'Speed:']
+        this.statsLabels=[]
+
+        this.stats.forEach((item, i)=>{
+          this.statsLabels.push(this.add.text( this.game.config.width*0.45-30,391+25*i, item, {fontSize: '24px',fontFamily: 'font1' }).setOrigin(0))
+        })
+        
+        this.graphics.setDepth(2)
+        this.graphics.fillRect(this.game.config.width*0.45+45, 400, Characters[this.cursor.getData('position')].hp*10, 10);
+        this.graphics.fillRect(this.game.config.width*0.45+45, 425, Characters[this.cursor.getData('position')].damage*10, 10);
+        this.graphics.fillRect(this.game.config.width*0.45+45, 450, Characters[this.cursor.getData('position')].speed*15, 10);
+
     }
     update(){
         if (this.cursor.getData('canMove')){
@@ -72,6 +86,11 @@ export default class CharacterSelect extends Phaser.Scene {
             } else {
               this.cursor.setData('position', this.cursor.getData('position')-1)
             }
+            this.graphics.clear()
+            this.graphics.fillRect(this.game.config.width*0.45+45, 400, Characters[this.cursor.getData('position')].hp*10, 10);
+            this.graphics.fillRect(this.game.config.width*0.45+45, 425, Characters[this.cursor.getData('position')].damage*10, 10);
+            this.graphics.fillRect(this.game.config.width*0.45+45, 450, Characters[this.cursor.getData('position')].speed*15, 10);
+
           } 
           else if (this.keyD.isDown){
             this.menuMove.play()
@@ -89,6 +108,11 @@ export default class CharacterSelect extends Phaser.Scene {
             } else {
               this.cursor.setData('position', this.cursor.getData('position')+1)
             }
+            this.graphics.clear()
+            this.graphics.fillRect(this.game.config.width*0.45+45, 400, Characters[this.cursor.getData('position')].hp*10, 10);
+            this.graphics.fillRect(this.game.config.width*0.45+45, 425, Characters[this.cursor.getData('position')].damage*10, 10);
+            this.graphics.fillRect(this.game.config.width*0.45+45, 450, Characters[this.cursor.getData('position')].speed*15, 10);
+
           } 
           this.cursor.x=this.game.config.width*.09*(this.cursor.getData('position')*3+1)
         }

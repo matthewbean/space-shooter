@@ -19,7 +19,6 @@ export default class HP extends Hud {
     update(){
         this.graphics.clear()
         this.hp= this.scene.player.hp;
-        // console.log(this.average)
         this.graphics.setDepth(2)
         this.graphics.fillRect(this.x-9, this.y-6, this.hp*this.average, 6);
     }

@@ -6,7 +6,7 @@ export default class Player extends Entity {
     constructor(scene, x, y, choice) {
       super(scene, x, y, 'player-ships', Characters[choice].startFrame,'player', [87, 90]);
       this.character=Characters[choice]
-      this.setData('speed', this.character.speed);
+      this.setData('speed', this.character.speed*75);
       this.setData('canShoot', true)
       this.hp = this.character.hp;
       this.setScale(4)
