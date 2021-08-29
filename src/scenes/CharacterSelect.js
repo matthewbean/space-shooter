@@ -119,7 +119,7 @@ export default class CharacterSelect extends Phaser.Scene {
      
         if (this.keySPACE.isDown){
             this.menuSelect.play()
-            this.sound.stopByKey('the-longest-year')
+            
             this.scene.start('SceneMain', {character:this.cursor.getData('position')})
 
           

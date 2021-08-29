@@ -125,6 +125,15 @@ export default class Player extends Entity {
       this.cleanUp=function(){
         this.setData('isShooting', false)
         this.burner.destroy()
+        this.scene.time.addEvent({
+          delay: 3000,
+          callback: function () {
+            this.scene.scene.start('SceneGameOver', {character:this.scene.data.character, money:this.scene.money, music:true})
+          },
+          callbackScope: this,
+          loop: false,
+        });
+
       }
     }
   }

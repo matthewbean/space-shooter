@@ -10,7 +10,6 @@ export default class HP extends Hud {
         this.maxHP=this.hp
         this.repeat=this.hp-2
         this.average=(this.repeat*8+26)/this.maxHP
-        console.log(this.average)
         for (let i=1; i <= this.repeat; i++){
             this.end= new Hud(scene, this.x+8*i, this.y, 'ui', 71).setScale(3).setDepth(1)            
         } 

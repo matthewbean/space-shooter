@@ -21,6 +21,9 @@ export default class SceneMainMenu extends Phaser.Scene {
   create(data) {
     // this.scene.start('SceneMain', {character:1})
     //this.scene.start('CharacterSelect');
+    // this.scene.start('SceneGameOver')
+    this.sound.stopByKey('soundtrack')
+
     this.settings=JSON.parse(localStorage.getItem('settings')) ??{
       music:1,
       sfx:1,
@@ -36,7 +39,7 @@ export default class SceneMainMenu extends Phaser.Scene {
   }
     this.menuMove= this.sound.add('menu-move', { volume:this.settings.sfx })
     this.menuSelect= this.sound.add('menu-select', { volume:this.settings.sfx })
-    //play music
+
     
       this.background=this.add.tileSprite(this.game.config.width * 0.5,this.game.config.height * 0.5,this.game.config.height,this.game.config.width,'background',5)
       this.background.angle = 90

@@ -70,7 +70,6 @@ export default class Settings extends Phaser.Scene {
     sfx:1,
     cameraShake:true
   }
-  console.log(this.settings)
   this.menuMove= this.sound.add('menu-move', { volume:this.settings.sfx })
   this.menuSelect= this.sound.add('menu-select', { volume:this.settings.sfx })
 //define menu items

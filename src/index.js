@@ -17,7 +17,7 @@ var config = {
       },
       gravity: { x: 0, y: 0 },
     },
-    scene: [SceneMainMenu, Settings, CharacterSelect,SceneMain, SceneGameOver],
+    scene: [SceneMainMenu, Settings, CharacterSelect, SceneMain, SceneGameOver],
     plugins: {
       scene: [
           {

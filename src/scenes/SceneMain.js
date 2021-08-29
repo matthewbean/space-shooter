@@ -46,17 +46,20 @@ export default class SceneMain extends Phaser.Scene {
         );  
         this.load.setPath('./assets/sounds')
       //load music and sound effects
-      this.load.audio('player-laser', ['player-laser-1.wav']);  
+      this.load.audio('player-laser', ['player-laser-2.wav']);  
       this.load.audio('explosion-1', ['explosion-1.wav']);  
       this.load.audio('explosion-2', ['explosion-2.wav']);  
       this.load.audio('explosion-3', ['explosion-3.wav']);  
       this.load.audio('explosion-4', ['explosion-4.wav']);  
       this.load.audio('soundtrack', ['neon-trip.mp3']);  
+      this.load.audio('take-damage', ['take-damage.wav']);  
 
   }
   
   create(data) {
     //create background
+    this.sound.stopByKey('the-longest-year')
+    this.data=data
     this.settings=JSON.parse(localStorage.getItem('settings')) ??{
       music:1,
       sfx:1,
@@ -83,8 +86,12 @@ export default class SceneMain extends Phaser.Scene {
       data.character
     );
     this.health= new HP(this, 50,50, 15)
-    this.soundtrack = this.sound.add('soundtrack', {volume: this.settings.music })
-    this.soundtrack.play()
+    if (!data.music){
+      this.soundtrack = this.sound.add('soundtrack', {volume: this.settings.music })
+      this.soundtrack.play()
+    }
+    this.takeDamage=this.sound.add('take-damage', {volume: this.settings.sfx/2}).setDetune(1200)
+    
     
 
 
@@ -111,7 +118,8 @@ export default class SceneMain extends Phaser.Scene {
       if (!player.getData('isDead') && !enemy.getData('isDead')) {
         player.damage(false, enemy.damageAmount);
         player.flicker()
-        if (this.settings.cameraShake){this.cameras.main.shake(100, .005);}
+        this.takeDamage.play()
+        if (this.settings.cameraShake){this.cameras.main.shake(100, .009);}
         enemy.hp=1;
         enemy.damage(true, player.damageAmount);
       }
@@ -123,6 +131,7 @@ export default class SceneMain extends Phaser.Scene {
     ) {
       if (!player.getData('isDead') && !laser.getData('isDead')) {
         player.flicker()
+        this.takeDamage.play()
         player.damage(false, laser.damageAmount);
         if (this.settings.cameraShake){this.cameras.main.shake(100, .005);}
         laser.destroy();
@@ -130,6 +139,10 @@ export default class SceneMain extends Phaser.Scene {
     }.bind(this));
     this.input.on('pointerdown', function () {
   }, this);
+  this.money= data.money ?? 0
+  this.moneyDisplay=this.add.text(35, 10, `$${this.money}`)
+  
+  //add main loop to create enemies
     this.time.addEvent({
       delay: 1500,
       callback: function () {
@@ -181,8 +194,7 @@ export default class SceneMain extends Phaser.Scene {
   update() {
     this.player.update()
     this.cleanUp()
-    this.health.update()
-    
+    this.health.update()    
     
   }
 

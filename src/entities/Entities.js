@@ -16,6 +16,11 @@ export default class Entity extends Phaser.GameObjects.Sprite {
       this.hp-= damage;
       if (this.hp <= 0) {
         new Explosion(this.scene, this.x, this.y, this.explosionFrames[0], this.explosionFrames[1], this.scale)
+        if (this.reward){
+        this.scene.money+=this.reward
+        this.scene.moneyDisplay.text=`$${this.scene.money}`
+        }
+        
         this.setAngle(0);
         this.body.setVelocity(0, 0);
         if (this.shootTimer !== undefined) {
