@@ -5,6 +5,7 @@ import Settings from './scenes/Settings'
 import SceneGameOver from './scenes/SceneGameOver'
 import SceneMainMenu from './scenes/SceneMainMenu'
 import CharacterSelect from './scenes/CharacterSelect'
+import SceneShop from './scenes/SceneShop'
 var config = {
     type: Phaser.WEBGL,
     width: 800,
@@ -17,16 +18,16 @@ var config = {
       },
       gravity: { x: 0, y: 0 },
     },
-    scene: [SceneMainMenu, Settings, CharacterSelect, SceneMain, SceneGameOver],
-    plugins: {
-      scene: [
-          {
-              key: 'PhaserRaycaster',
-              plugin: PhaserRaycaster,
-              mapping: 'raycasterPlugin'
-          }
-      ]
-  },
+    scene: [SceneMainMenu, Settings, CharacterSelect, SceneMain, SceneGameOver, SceneShop],
+    // plugins: {
+      // scene: [
+      //     {
+      //         key: 'PhaserRaycaster',
+      //         plugin: PhaserRaycaster,
+      //         mapping: 'raycasterPlugin'
+      //     }
+      // ]
+  // },
     pixelArt: true,
     roundPixels: false,
   };

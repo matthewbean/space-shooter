@@ -24,6 +24,7 @@ export default class CharacterSelect extends Phaser.Scene {
         this.settings=JSON.parse(localStorage.getItem('settings')) ??{
             music:1,
             sfx:1,
+            autoFire: false,
             cameraShake:true
           }
           this.menuMove= this.sound.add('menu-move', { volume:this.settings.sfx })
@@ -64,7 +65,7 @@ export default class CharacterSelect extends Phaser.Scene {
         
         this.graphics.setDepth(2)
         this.graphics.fillRect(this.game.config.width*0.45+45, 400, Characters[this.cursor.getData('position')].hp*10, 10);
-        this.graphics.fillRect(this.game.config.width*0.45+45, 425, Characters[this.cursor.getData('position')].damage*10, 10);
+        this.graphics.fillRect(this.game.config.width*0.45+45, 425, Characters[this.cursor.getData('position')].damage*40, 10);
         this.graphics.fillRect(this.game.config.width*0.45+45, 450, Characters[this.cursor.getData('position')].speed*15, 10);
 
     }
@@ -88,7 +89,7 @@ export default class CharacterSelect extends Phaser.Scene {
             }
             this.graphics.clear()
             this.graphics.fillRect(this.game.config.width*0.45+45, 400, Characters[this.cursor.getData('position')].hp*10, 10);
-            this.graphics.fillRect(this.game.config.width*0.45+45, 425, Characters[this.cursor.getData('position')].damage*10, 10);
+            this.graphics.fillRect(this.game.config.width*0.45+45, 425, Characters[this.cursor.getData('position')].damage*40, 10);
             this.graphics.fillRect(this.game.config.width*0.45+45, 450, Characters[this.cursor.getData('position')].speed*15, 10);
 
           } 
@@ -110,7 +111,7 @@ export default class CharacterSelect extends Phaser.Scene {
             }
             this.graphics.clear()
             this.graphics.fillRect(this.game.config.width*0.45+45, 400, Characters[this.cursor.getData('position')].hp*10, 10);
-            this.graphics.fillRect(this.game.config.width*0.45+45, 425, Characters[this.cursor.getData('position')].damage*10, 10);
+            this.graphics.fillRect(this.game.config.width*0.45+45, 425, Characters[this.cursor.getData('position')].damage*40, 10);
             this.graphics.fillRect(this.game.config.width*0.45+45, 450, Characters[this.cursor.getData('position')].speed*15, 10);
 
           } 
@@ -120,7 +121,7 @@ export default class CharacterSelect extends Phaser.Scene {
         if (this.keySPACE.isDown){
             this.menuSelect.play()
             
-            this.scene.start('SceneMain', {character:this.cursor.getData('position')})
+            this.scene.start('SceneMain', {character:{ship:this.cursor.getData('position'), laser:0}, weaponsOwned:[0,-1,-1,-1]})
 
           
         }

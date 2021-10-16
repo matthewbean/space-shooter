@@ -1,26 +1,30 @@
 import Entity from './Entities'
 import PlayerLaser from './PlayerLaser'
 import Characters from '../utilities/Characters'
+import Weapons from '../utilities/Weapons'
 import Burner from './Burner'
 export default class Player extends Entity {
-    constructor(scene, x, y, choice) {
-      super(scene, x, y, 'player-ships', Characters[choice].startFrame,'player', [87, 90]);
-      this.character=Characters[choice]
+    constructor(scene, x, y, data, weaponsOwned) {
+      super(scene, x, y, 'player-ships', Characters[data.ship].startFrame,'player', [87, 90]);
+      this.character=Characters[data.ship]
+      this.weaponsOwned=weaponsOwned
       this.setData('speed', this.character.speed*75);
       this.setData('canShoot', true)
+      this.maxHP=this.character.hp;
       this.hp = this.character.hp;
       this.setScale(4)
       this.angle = 90
-      this.damageAmount=this.character.damage
+      this.laserType=data.laser
+      this.damageAmount=this.character.damage*Weapons[this.laserType].damage[this.weaponsOwned[this.laserType]]
       this.burner= new Burner(this.scene, this.x-20, this.y, 44,47, false, 3)
-
+      console.log(Weapons[0])
       
       this.setData('isShooting', false);
 
-      this.setData('timerShootDelay', 10);
+      this.setData('timerShootDelay', Weapons[this.laserType].reload);
       this.setData('timerShootTick', this.getData('timerShootDelay') - 1);
 
-      this.blaster = this.scene.sound.add('player-laser', {volume: this.scene.settings.sfx})
+      this.blaster = this.scene.sound.add(Weapons[this.laserType].sound, {volume: this.scene.settings.sfx})
 
       this.keyW =  this.scene.input.keyboard.addKey('W');
       this.keyA =  this.scene.input.keyboard.addKey('A');
@@ -75,11 +79,11 @@ export default class Player extends Entity {
       if (this.getData('isShooting')) {
         if(this.getData('canShoot')){
           this.blaster.play()
-          var laser = new PlayerLaser(this.scene, this.x+25, this.y, 5, this.damageAmount);
+          var laser = new PlayerLaser(this.scene, this.x+25, this.y, Weapons[this.laserType], this.weaponsOwned[this.laserType], this.damageAmount );
           this.scene.playerLasers.add(laser);
           this.setData('canShoot', false);
           this.scene.time.addEvent({
-            delay: 100,
+            delay: this.getData('timerShootDelay'),
             callback: function () {
               this.setData('canShoot',true)
             },
@@ -109,7 +113,7 @@ export default class Player extends Entity {
           
         }
   
-        if (this.keySpace.isDown) {
+        if (this.keySpace.isDown || this.scene.settings.autoFire) {
           this.setData('isShooting', true);
         } else {
           this.setData(
@@ -128,7 +132,7 @@ export default class Player extends Entity {
         this.scene.time.addEvent({
           delay: 3000,
           callback: function () {
-            this.scene.scene.start('SceneGameOver', {character:this.scene.data.character, money:this.scene.money, music:true})
+            this.scene.scene.start('SceneGameOver', {character:this.scene.data.character, money:this.scene.money, music:true, weaponsOwned: this.weaponsOwned})
           },
           callbackScope: this,
           loop: false,

@@ -23,6 +23,7 @@ export default class SceneGameOver extends Phaser.Scene {
     this.settings=JSON.parse(localStorage.getItem('settings')) ??{
       music:1,
       sfx:1,
+      autoFire: false,
       cameraShake:true
     }
     
@@ -48,17 +49,20 @@ export default class SceneGameOver extends Phaser.Scene {
     this.keyS =  this.input.keyboard.addKey('S');
     this.keySPACE =  this.input.keyboard.addKey('SPACE');
     //create title
-this.title = this.add.text(this.game.config.width*0.5, 200, 'Game Over', {fontSize: '72px',fontFamily: 'font1' }).setOrigin(0.5);
+this.title = this.add.text(this.game.config.width*0.5, 200, 'Game Over', {fontSize: '48px',fontFamily: 'font1' }).setOrigin(0.5);
 this.selectors=[]
 //define menu items
-this.menuItems=[{text:'Continue', onSelect: ()=>{this.scene.start('SceneMain', data);}},{text:'Main Menu', onSelect: ()=>this.scene.start('SceneMainMenu', {music: false})}]
+this.menuItems=[{text:'Continue', onSelect: ()=>{this.scene.start('SceneMain', data);}},
+{text:'Shop', onSelect: ()=>{this.scene.start('SceneShop', data);}},
+{text:'Main Menu', onSelect: ()=>this.scene.start('SceneMainMenu', {music: false})}]
+
 //create menu items
 this.menuItems.forEach((item, i)=>{
-  let element= this.add.text(this.game.config.width*0.45, 300+40*i, item.text, {fontSize: '24px',  fontFamily: 'font1' }).setOrigin(0);
+  let element= this.add.text(this.game.config.width*0.43, 300+40*i, item.text, {fontSize: '20px',  fontFamily: 'font1' }).setOrigin(0);
   this.selectors.push(element)
 })
 //create cursor
-this.cursor=this.add.image(this.game.config.width*0.43,313,'UI',149).setScale(3)  
+this.cursor=this.add.image(this.game.config.width*0.41,311,'UI',149).setScale(3)  
 this.cursor.setData('position', 0)
 this.cursor.setData('canMove', true)
 
@@ -100,7 +104,7 @@ this.cursor.setData('canMove', true)
           this.cursor.setData('position', this.cursor.getData('position')+1)
         }
       } 
-      this.cursor.y=313+40*this.cursor.getData('position')
+      this.cursor.y=311+40*this.cursor.getData('position')
     }
  
     if (this.keySPACE.isDown){

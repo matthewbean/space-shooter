@@ -3,6 +3,7 @@ import ChaserShip from '../entities/ChaserShip'
 import Player from '../entities/Player'
 import GunShip from '../entities/GunShip'
 import SpinningGunShip from '../entities/SpinningGunShip'
+import Levels from '../utilities/Levels'
 import HP from '../hud/HP'
 export default class SceneMain extends Phaser.Scene {
   constructor() {
@@ -63,6 +64,7 @@ export default class SceneMain extends Phaser.Scene {
     this.settings=JSON.parse(localStorage.getItem('settings')) ??{
       music:1,
       sfx:1,
+      autoFire: false,
       cameraShake:true
     }    
     for (let i = 4; i<6; i++){
@@ -78,13 +80,18 @@ export default class SceneMain extends Phaser.Scene {
     });
     
     }
+
+console.log(data)
+      this.player = new Player(
+        this,
+        20,
+        this.game.config.height * 0.5,
+        data.character,
+        data.weaponsOwned
+      );
     
-    this.player = new Player(
-      this,
-      20,
-      this.game.config.height * 0.5,
-      data.character
-    );
+    
+    
     this.health= new HP(this, 50,50, 15)
     if (!data.music){
       this.soundtrack = this.sound.add('soundtrack', {volume: this.settings.music })
@@ -107,7 +114,8 @@ export default class SceneMain extends Phaser.Scene {
       if (enemy) {
         enemy.flicker()
         enemy.damage(true, playerLaser.damageAmount);
-        playerLaser.destroy();
+        playerLaser.onDestroy();
+        playerLaser.destroy()
       }
     });
 
@@ -140,22 +148,55 @@ export default class SceneMain extends Phaser.Scene {
     this.input.on('pointerdown', function () {
   }, this);
   this.money= data.money ?? 0
-  this.moneyDisplay=this.add.text(35, 10, `$${this.money}`)
-  
+  this.moneyDisplay=this.add.text(this.game.config.width-20, 40, `$${this.money}`, {fontSize: `20px`, fontFamily: `font1`}).setOrigin(1)
+  //control level
+
+  this.level=0
+  this.play=false
+  this.announcement=this.add.text(this.game.config.width*.5, 200, `Wave ${this.level+1}`, {fontSize:'48px', fontFamily: 'font1'}).setOrigin(.5)
+  this.announce=()=>this.time.addEvent({
+    delay: 10000,
+    callback: function(){
+      console.log('play')
+      this.play=true
+      this.announcement.text=``
+      this.levelTimer()
+    },
+    callbackScope: this,
+    loop: false
+  })
+  this.levelTimer=()=>this.time.addEvent({
+    delay: Levels[this.level].length,
+    callback: function(){
+      console.log('break')
+      this.level++
+      this.play=false
+      this.announcement.text=`Wave ${this.level+1}`
+      this.announce()
+    },
+    callbackScope: this,
+    loop: false
+  })
+  this.announce()
+
+
   //add main loop to create enemies
+
     this.time.addEvent({
-      delay: 1500,
+      delay: Levels[this.level].spawnTimer,
       callback: function () {
+        if (this.play){
+        let enemyNumber=Phaser.Math.Between(1,100)
         var enemy = null;
 
-        if (Phaser.Math.Between(0, 10) >= 3) {
+        if (enemyNumber<=Levels[this.level].enemies[0]) {
           enemy = new GunShip(
             this,
             this.game.config.width + 20,
             Phaser.Math.Between(50, this.game.config.height  - 50)
           );
           
-        } else if (Phaser.Math.Between(0, 10) >= 5) {
+        } else if (enemyNumber<=Levels[this.level].enemies[1]) {
           enemy = new ChaserShip(
             this,
             this.game.config.width + 20,
@@ -163,7 +204,7 @@ export default class SceneMain extends Phaser.Scene {
           );
           
         } else if (
-          Phaser.Math.Between(0, 10) >= 5 &&
+          enemyNumber<=Levels[this.level].enemies[2] &&
           this.getEnemiesByType('SpinningGunShip').length < 1
         ) {
           enemy = new SpinningGunShip(
@@ -172,7 +213,7 @@ export default class SceneMain extends Phaser.Scene {
             Phaser.Math.Between(50, this.game.config.height  - 50)
           );
           
-        } else {
+        } else if (enemyNumber<=Levels[this.level].enemies[3]){
           enemy = new CarrierShip(
             this,
             this.game.config.width + 20,
@@ -180,8 +221,9 @@ export default class SceneMain extends Phaser.Scene {
           );
           
         }
+        if (enemy)this.enemies.add(enemy);
+      }
 
-        this.enemies.add(enemy);
       },
       callbackScope: this,
       loop: true,
@@ -256,6 +298,9 @@ export default class SceneMain extends Phaser.Scene {
           laser.y > this.game.config.height + laser.displayHeight
         ) {
           if (laser) {
+            if (laser.onDestroy){
+              laser.onDestroy()
+            }
             laser.destroy();
           }
         }

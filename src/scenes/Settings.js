@@ -40,7 +40,7 @@ export default class Settings extends Phaser.Scene {
       this.keyD =  this.input.keyboard.addKey('D');
       this.keySPACE =  this.input.keyboard.addKey('SPACE');
       //create title
-  this.title = this.add.text(this.game.config.width*0.5, 200, 'Space Battle', {fontSize: '72px',fontFamily: 'font1' }).setOrigin(0.5);
+  this.title = this.add.text(this.game.config.width*0.5, 200, 'Settings', {fontSize: '48px',fontFamily: 'font1' }).setOrigin(0.5);
   this.selectors=[]
   this.selectorsValues=[]
   //function to change value of menu
@@ -68,31 +68,34 @@ export default class Settings extends Phaser.Scene {
   this.settings=JSON.parse(localStorage.getItem('settings')) ??{
     music:1,
     sfx:1,
+    autoFire: false,
     cameraShake:true
   }
+  console.log(this.settings)
   this.menuMove= this.sound.add('menu-move', { volume:this.settings.sfx })
   this.menuSelect= this.sound.add('menu-select', { volume:this.settings.sfx })
 //define menu items
     this.menuItems= [{text:'Music:', name:'music', value:this.settings.music, displayValue:this.settings.music*10, onSelect: ()=>this.handleNumberChange(0)},
     {text:'SFX:', name:'sfx', value:this.settings.sfx, displayValue:this.settings.sfx*10, onSelect: ()=>this.handleNumberChange(1)},
-    {text:'Camera Shake:', name:'cameraShake', value:this.settings.cameraShake, displayValue:this.settings.cameraShake?'ON':'OFF', onSelect: ()=>this.handleBooleanChange(2)},
+    {text:'Auto Fire:', name:'autoFire', value:this.settings.autoFire, displayValue:this.settings.autoFire?'ON':'OFF', onSelect: ()=>this.handleBooleanChange(2)},
+    {text:'Camera Shake:', name:'cameraShake', value:this.settings.cameraShake, displayValue:this.settings.cameraShake?'ON':'OFF', onSelect: ()=>this.handleBooleanChange(3)},
     {text:'Done', name:'done', value:null, displayValue:'', onSelect: ()=>{this.scene.start('SceneMainMenu',{music:data.music})}}
     ]
-  
+  console.log(this.menuItems)
 
   //create menu items
   
   this.menuItems.forEach((item, i)=>{
-    let element= this.add.text(this.game.config.width*0.45, 300+40*i, item.text, {fontSize: '24px',  fontFamily: 'font1' }).setOrigin(0);
+    let element= this.add.text(this.game.config.width*0.33, 250+40*i, item.text, {fontSize: '20px',  fontFamily: 'font1' }).setOrigin(0);
     this.selectors.push(element)
   })
   //create menu values
   this.menuItems.forEach((item, i)=>{
-    let element= this.add.text(this.game.config.width*0.65, 300+40*i, item.displayValue, {fontSize: '24px',  fontFamily: 'font1' }).setOrigin(0);
+    let element= this.add.text(this.game.config.width*0.65, 250+40*i, item.displayValue, {fontSize: '20px',  fontFamily: 'font1' }).setOrigin(0);
     this.selectorsValues.push(element)
   })
   //create cursor
-  this.cursor=this.add.image(this.game.config.width*0.43,313,'UI',149).setScale(3)  
+  this.cursor=this.add.image(this.game.config.width*0.30, 263,'UI',149).setScale(3)  
   this.cursor.setData('position', 0)
   this.cursor.setData('canMove', true)
   
@@ -150,7 +153,7 @@ export default class Settings extends Phaser.Scene {
             this.menuSelect.setVolume(this.settings.sfx)
             this.menuSelect.play()
         }
-        this.cursor.y=313+40*this.cursor.getData('position')
+        this.cursor.y=260+40*this.cursor.getData('position')
       this.selectorsValues.forEach((item, i)=>{
           item.text=this.menuItems[i].displayValue
       })

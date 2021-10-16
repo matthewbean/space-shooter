@@ -20,13 +20,14 @@ export default class SceneMainMenu extends Phaser.Scene {
   }
   create(data) {
     // this.scene.start('SceneMain', {character:1})
-    //this.scene.start('CharacterSelect');
+    this.scene.start('SceneShop');
     // this.scene.start('SceneGameOver')
     this.sound.stopByKey('soundtrack')
 
     this.settings=JSON.parse(localStorage.getItem('settings')) ??{
       music:1,
       sfx:1,
+      autoFire: false,
       cameraShake:true
     }
     
@@ -56,18 +57,22 @@ export default class SceneMainMenu extends Phaser.Scene {
     this.keyW =  this.input.keyboard.addKey('W');
     this.keyS =  this.input.keyboard.addKey('S');
     this.keySPACE =  this.input.keyboard.addKey('SPACE');
+    //create instructions
+    this.add.text(20,20, `CONTROLS:`, {fontSize: `20px`, fontFamily: `font1`})
+    this.add.text(20,50, `W/A/S/D: MOVEMENT`, {fontSize: `16px`, fontFamily: `font1`})
+    this.add.text(20,80, `SPACE: SHOOT/SELECT`, {fontSize: `16px`, fontFamily: `font1`})
     //create title
-this.title = this.add.text(this.game.config.width*0.5, 200, 'Space Battle', {fontSize: '72px',fontFamily: 'font1' }).setOrigin(0.5);
+this.title = this.add.text(this.game.config.width*0.5, 200, 'Space Battle', {fontSize: '48px',fontFamily: 'font1' }).setOrigin(0.5);
 this.selectors=[]
 //define menu items
 this.menuItems=[{text:'Play', onSelect: ()=>{this.scene.start('CharacterSelect');}},{text:'Settings', onSelect: ()=>this.scene.start('Settings', {music:this.theLongestYear})}]
 //create menu items
 this.menuItems.forEach((item, i)=>{
-  let element= this.add.text(this.game.config.width*0.45, 300+40*i, item.text, {fontSize: '24px',  fontFamily: 'font1' }).setOrigin(0);
+  let element= this.add.text(this.game.config.width*0.45, 300+40*i, item.text, {fontSize: '20px',  fontFamily: 'font1' }).setOrigin(0);
   this.selectors.push(element)
 })
 //create cursor
-this.cursor=this.add.image(this.game.config.width*0.43,313,'UI',149).setScale(3)  
+this.cursor=this.add.image(this.game.config.width*0.43,312,'UI',149).setScale(3)  
 this.cursor.setData('position', 0)
 this.cursor.setData('canMove', true)
 
@@ -109,7 +114,7 @@ this.cursor.setData('canMove', true)
           this.cursor.setData('position', this.cursor.getData('position')+1)
         }
       } 
-      this.cursor.y=313+40*this.cursor.getData('position')
+      this.cursor.y=312+40*this.cursor.getData('position')
     }
  
     if (this.keySPACE.isDown){
