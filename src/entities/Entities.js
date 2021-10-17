@@ -17,7 +17,8 @@ export default class Entity extends Phaser.GameObjects.Sprite {
       if (this.hp <= 0 && this.getData('type') !== 'laser' ) {
         new Explosion(this.scene, this.x, this.y, this.explosionFrames[0], this.explosionFrames[1], this.scale)
         if (this.reward){
-        this.scene.money+=this.reward
+          console.log(this.scene.multiplier)
+        this.scene.money+=this.reward*this.scene.multiplier
         this.scene.moneyDisplay.text=`$${this.scene.money}`
         }
         

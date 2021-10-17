@@ -46,7 +46,7 @@ export default class CharacterSelect extends Phaser.Scene {
         this.keyD =  this.input.keyboard.addKey('D');
         this.keySPACE =  this.input.keyboard.addKey('SPACE');
 
-        this.title = this.add.text(this.game.config.width*0.5, 200, 'Select Character', {fontSize: '72px',fontFamily: 'font1' }).setOrigin(0.5);
+        this.title = this.add.text(this.game.config.width*0.5, 200, 'Select Character', {fontSize: '48px',fontFamily: 'font1' }).setOrigin(0.5);
         this.characters=[]
         for (let i=1;i<=10;i+=3){
             let character= this.add.image(this.game.config.width*i*.09, 300, 'player-ships', i).setScale(5)
@@ -60,13 +60,13 @@ export default class CharacterSelect extends Phaser.Scene {
         this.statsLabels=[]
 
         this.stats.forEach((item, i)=>{
-          this.statsLabels.push(this.add.text( this.game.config.width*0.45-30,391+25*i, item, {fontSize: '24px',fontFamily: 'font1' }).setOrigin(0))
+          this.statsLabels.push(this.add.text( this.game.config.width*0.45-40,393+25*i, item, {fontSize: '20px',fontFamily: 'font1' }).setOrigin(0))
         })
         
         this.graphics.setDepth(2)
-        this.graphics.fillRect(this.game.config.width*0.45+45, 400, Characters[this.cursor.getData('position')].hp*10, 10);
-        this.graphics.fillRect(this.game.config.width*0.45+45, 425, Characters[this.cursor.getData('position')].damage*40, 10);
-        this.graphics.fillRect(this.game.config.width*0.45+45, 450, Characters[this.cursor.getData('position')].speed*15, 10);
+        this.graphics.fillRect(this.game.config.width*0.45+60, 400, Characters[this.cursor.getData('position')].hp*10, 10);
+        this.graphics.fillRect(this.game.config.width*0.45+60, 425, Characters[this.cursor.getData('position')].damage*40, 10);
+        this.graphics.fillRect(this.game.config.width*0.45+60, 450, Characters[this.cursor.getData('position')].speed*15, 10);
 
     }
     update(){
@@ -88,9 +88,9 @@ export default class CharacterSelect extends Phaser.Scene {
               this.cursor.setData('position', this.cursor.getData('position')-1)
             }
             this.graphics.clear()
-            this.graphics.fillRect(this.game.config.width*0.45+45, 400, Characters[this.cursor.getData('position')].hp*10, 10);
-            this.graphics.fillRect(this.game.config.width*0.45+45, 425, Characters[this.cursor.getData('position')].damage*40, 10);
-            this.graphics.fillRect(this.game.config.width*0.45+45, 450, Characters[this.cursor.getData('position')].speed*15, 10);
+            this.graphics.fillRect(this.game.config.width*0.45+60, 400, Characters[this.cursor.getData('position')].hp*10, 10);
+            this.graphics.fillRect(this.game.config.width*0.45+60, 425, Characters[this.cursor.getData('position')].damage*40, 10);
+            this.graphics.fillRect(this.game.config.width*0.45+60, 450, Characters[this.cursor.getData('position')].speed*15, 10);
 
           } 
           else if (this.keyD.isDown){
@@ -110,9 +110,9 @@ export default class CharacterSelect extends Phaser.Scene {
               this.cursor.setData('position', this.cursor.getData('position')+1)
             }
             this.graphics.clear()
-            this.graphics.fillRect(this.game.config.width*0.45+45, 400, Characters[this.cursor.getData('position')].hp*10, 10);
-            this.graphics.fillRect(this.game.config.width*0.45+45, 425, Characters[this.cursor.getData('position')].damage*40, 10);
-            this.graphics.fillRect(this.game.config.width*0.45+45, 450, Characters[this.cursor.getData('position')].speed*15, 10);
+            this.graphics.fillRect(this.game.config.width*0.45+60, 400, Characters[this.cursor.getData('position')].hp*10, 10);
+            this.graphics.fillRect(this.game.config.width*0.45+60, 425, Characters[this.cursor.getData('position')].damage*40, 10);
+            this.graphics.fillRect(this.game.config.width*0.45+60, 450, Characters[this.cursor.getData('position')].speed*15, 10);
 
           } 
           this.cursor.x=this.game.config.width*.09*(this.cursor.getData('position')*3+1)

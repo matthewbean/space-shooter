@@ -92,7 +92,7 @@ console.log(data)
     
     
     
-    this.health= new HP(this, 50,50, 15)
+    this.health= new HP(this, 20,20, 15)
     if (!data.music){
       this.soundtrack = this.sound.add('soundtrack', {volume: this.settings.music })
       this.soundtrack.play()
@@ -150,16 +150,20 @@ console.log(data)
   this.money= data.money ?? 0
   this.moneyDisplay=this.add.text(this.game.config.width-20, 40, `$${this.money}`, {fontSize: `20px`, fontFamily: `font1`}).setOrigin(1)
   //control level
-
-  this.level=0
-  this.play=false
-  this.announcement=this.add.text(this.game.config.width*.5, 200, `Wave ${this.level+1}`, {fontSize:'48px', fontFamily: 'font1'}).setOrigin(.5)
+  this.level= data.level??0;
+  this.multiplier=1
+  this.play=true
+  this.multiplierText=this.add.text(this.game.config.width-20, 20, `${this.multiplier}x`, {fontSize: `20px`, fontFamily: `font1`}).setOrigin(1)
+  this.announcement=this.add.text(this.game.config.width*.5, 200, ``, {fontSize:'48px', fontFamily: 'font1'}).setOrigin(.5)
+  this.subtitle=this.add.text(this.game.config.width*.5, 250, ``, {fontSize:'24px', fontFamily: 'font1'}).setOrigin(.5)
+  
   this.announce=()=>this.time.addEvent({
-    delay: 10000,
+    delay: 3000,
     callback: function(){
-      console.log('play')
       this.play=true
+      this.playLoop= this.addEnemies()
       this.announcement.text=``
+      this.subtitle.text=``
       this.levelTimer()
     },
     callbackScope: this,
@@ -168,21 +172,44 @@ console.log(data)
   this.levelTimer=()=>this.time.addEvent({
     delay: Levels[this.level].length,
     callback: function(){
-      console.log('break')
-      this.level++
+      this.playLoop.remove(false)
+      this.announcement.text=``
+      this.break()
+    },
+    callbackScope: this,
+    loop: false
+  })
+  this.break=()=>this.time.addEvent({
+    delay: 5000,
+    callback: function(){
       this.play=false
-      this.announcement.text=`Wave ${this.level+1}`
+      this.level++
+      this.multiplier= Phaser.Math.RoundTo(this.multiplier+0.1, -1)
+      this.multiplierText.text=`${this.multiplier}x`
+      this.announcement.text=`Press E to enter shop`
+      this.subtitle.text=`Current Multiplier: ${this.multiplier}x`
+      this.shop()
+    },
+    callbackScope: this,
+    loop: false
+  })
+  this.shop=()=>this.time.addEvent({
+    delay: 5000,
+    callback: function(){
+      this.announcement.text=`${Levels[this.level].name}`
+      this.subtitle.text=`${Levels[this.level].subtitle}`
       this.announce()
     },
     callbackScope: this,
     loop: false
   })
-  this.announce()
+  console.log(this.play)
+  this.shop()
 
 
   //add main loop to create enemies
 
-    this.time.addEvent({
+  this.addEnemies= ()=> this.time.addEvent({
       delay: Levels[this.level].spawnTimer,
       callback: function () {
         if (this.play){

@@ -30,6 +30,7 @@ export default class Player extends Entity {
       this.keyA =  this.scene.input.keyboard.addKey('A');
       this.keyS =  this.scene.input.keyboard.addKey('S');
       this.keyD =  this.scene.input.keyboard.addKey('D');
+      this.keyE =  this.scene.input.keyboard.addKey('E');
       this.keySpace = this.scene.input.keyboard.addKey('SPACE');
 
       this.anims.create({
@@ -112,6 +113,9 @@ export default class Player extends Entity {
           this.moveRight();
           
         }
+        if (this.keyE.isDown && !this.scene.play){
+          this.scene.scene.start('SceneShop', {character:this.scene.data.character, money:this.scene.money, level:this.scene.level, weaponsOwned: this.weaponsOwned})
+        }
   
         if (this.keySpace.isDown || this.scene.settings.autoFire) {
           this.setData('isShooting', true);
@@ -132,7 +136,7 @@ export default class Player extends Entity {
         this.scene.time.addEvent({
           delay: 3000,
           callback: function () {
-            this.scene.scene.start('SceneGameOver', {character:this.scene.data.character, money:this.scene.money, music:true, weaponsOwned: this.weaponsOwned})
+            this.scene.scene.start('SceneGameOver', {level: this.scene.level, character:this.scene.data.character, money:this.scene.money, music:true, weaponsOwned: this.weaponsOwned})
           },
           callbackScope: this,
           loop: false,

@@ -20,7 +20,7 @@ export default class SceneMainMenu extends Phaser.Scene {
   }
   create(data) {
     // this.scene.start('SceneMain', {character:1})
-    this.scene.start('SceneShop');
+    // this.scene.start('SceneShop');
     // this.scene.start('SceneGameOver')
     this.sound.stopByKey('soundtrack')
 
