@@ -81,7 +81,6 @@ export default class SceneMain extends Phaser.Scene {
     
     }
 
-console.log(data)
       this.player = new Player(
         this,
         20,
@@ -103,6 +102,7 @@ console.log(data)
 
 
     this.enemies = this.add.group();
+    this.mines=this.add.group()
     this.enemyLasers = this.add.group();
     this.playerLasers = this.add.group();
 
@@ -118,6 +118,43 @@ console.log(data)
         playerLaser.destroy()
       }
     });
+    this.physics.add.overlap(this.playerLasers, this.mines, function (
+      playerLaser,
+      mine
+    ) {
+      
+      if (mine) {
+        mine.flicker()
+        mine.damage(true, playerLaser.damageAmount);
+        playerLaser.onDestroy();
+        playerLaser.destroy()
+      }
+    });
+    this.physics.add.overlap(this.player, this.mines, function (
+      player,
+      mine
+    ) {
+      if (!player.getData('isDead') && !mine.getData('isDead')) {
+        player.damage(false, mine.damageAmount);
+        player.flicker()
+        this.takeDamage.play()
+        if (this.settings.cameraShake){this.cameras.main.shake(100, .009);}
+        mine.hp=1;
+        mine.damage(true, player.damageAmount);
+      }
+    }.bind(this));
+    this.physics.add.overlap(this.enemies, this.mines, function (
+      enemy,
+      mine
+    ) {
+      if (!enemy.getData('isDead') && !mine.getData('isDead') && mine.state === mine.states.CHASE) {
+        enemy.damage(false, mine.hp);
+        enemy.flicker()
+        if (this.settings.cameraShake){this.cameras.main.shake(100, .009);}
+        mine.hp=1;
+        mine.damage(true, 100);
+      }
+    }.bind(this));
 
     this.physics.add.overlap(this.player, this.enemies, function (
       player,
@@ -148,12 +185,12 @@ console.log(data)
     this.input.on('pointerdown', function () {
   }, this);
   this.money= data.money ?? 0
-  this.moneyDisplay=this.add.text(this.game.config.width-20, 40, `$${this.money}`, {fontSize: `20px`, fontFamily: `font1`}).setOrigin(1)
+  this.moneyDisplay=this.add.text(this.game.config.width-20, 30, `$${this.money}`, {fontSize: `20px`, fontFamily: `font1`}).setOrigin(1)
   //control level
   this.level= data.level??0;
   this.multiplier=1
   this.play=true
-  this.multiplierText=this.add.text(this.game.config.width-20, 20, `${this.multiplier}x`, {fontSize: `20px`, fontFamily: `font1`}).setOrigin(1)
+  this.multiplierText=this.add.text(this.game.config.width-20, 50, `Multiplier: ${this.multiplier}x`, {fontSize: `20px`, fontFamily: `font1`}).setOrigin(1)
   this.announcement=this.add.text(this.game.config.width*.5, 200, ``, {fontSize:'48px', fontFamily: 'font1'}).setOrigin(.5)
   this.subtitle=this.add.text(this.game.config.width*.5, 250, ``, {fontSize:'24px', fontFamily: 'font1'}).setOrigin(.5)
   
@@ -180,21 +217,21 @@ console.log(data)
     loop: false
   })
   this.break=()=>this.time.addEvent({
-    delay: 5000,
+    delay: 15000,
     callback: function(){
       this.play=false
       this.level++
-      this.multiplier= Phaser.Math.RoundTo(this.multiplier+0.1, -1)
+      this.multiplier= Phaser.Math.RoundTo(this.multiplier+0.2, -1)
       this.multiplierText.text=`${this.multiplier}x`
       this.announcement.text=`Press E to enter shop`
-      this.subtitle.text=`Current Multiplier: ${this.multiplier}x`
+      this.subtitle.text=`This will heal you but reset your multiplier`
       this.shop()
     },
     callbackScope: this,
     loop: false
   })
   this.shop=()=>this.time.addEvent({
-    delay: 5000,
+    delay: 7000,
     callback: function(){
       this.announcement.text=`${Levels[this.level].name}`
       this.subtitle.text=`${Levels[this.level].subtitle}`
@@ -203,7 +240,6 @@ console.log(data)
     callbackScope: this,
     loop: false
   })
-  console.log(this.play)
   this.shop()
 
 
@@ -248,7 +284,8 @@ console.log(data)
           );
           
         }
-        if (enemy)this.enemies.add(enemy);
+        if (enemy?.getData('type') === 'ChaserShip')this.mines.add(enemy)
+        else if (enemy)this.enemies.add(enemy);
       }
 
       },
@@ -281,7 +318,6 @@ console.log(data)
     
     for (var i = 0; i < this.enemies.getChildren().length; i++) {
         var enemy = this.enemies.getChildren()[i];
-  
         enemy.update();
         if (
           enemy.x < -enemy.displayWidth ||
@@ -298,6 +334,24 @@ console.log(data)
           }
         }
       }
+    for (var i = 0; i < this.mines.getChildren().length; i++) {
+    var mine = this.mines.getChildren()[i];
+    mine.update();
+    if (
+      mine.x < -mine.displayWidth ||
+      mine.x > this.game.config.width + mine.displayWidth ||
+      mine.y < -mine.displayHeight * 4 ||
+      mine.y > this.game.config.height + mine.displayHeight
+    ) {
+      if (mine) {
+        if (mine.onDestroy !== undefined) {
+          mine.onDestroy();
+        }
+
+        mine.destroy();
+      }
+    }
+  }
       for (var i = 0; i < this.enemyLasers.getChildren().length; i++) {
         var laser = this.enemyLasers.getChildren()[i];
         laser.update();

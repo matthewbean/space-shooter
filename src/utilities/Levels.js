@@ -5,7 +5,7 @@ export default [
         level: 1,
         spawnTimer: 3000,
         enemies:[0,100,0,0],
-        length: 3000
+        length: 20000
     },
     {
         name: 'Wave 2',
@@ -20,7 +20,7 @@ export default [
         subtitle: 'Be on watch',
         level: 3,
         spawnTimer: 2500,
-        enemies:[50,50,0,0],
+        enemies:[50,100,0,0],
         length: 30000
     },
     {
@@ -28,7 +28,7 @@ export default [
         subtitle: 'Counter Force',
         level: 3,
         spawnTimer: 1500,
-        enemies:[0,100,0,0],
+        enemies:[100,0,0,0],
         length: 30000
     },
     {

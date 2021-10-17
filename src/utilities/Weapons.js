@@ -1,8 +1,8 @@
 export default  [{
     name: 'Blaster',
     levels: 3,
-    damage: [2,4,6],
-    cost: [0, 200, 700],
+    damage: [3,5,7],
+    cost: [0, 200, 600],
     sprite: [1,2,3],
     shopSprite: 30,
     sound: 'player-laser', 
@@ -16,7 +16,7 @@ export default  [{
 {
     name: 'Wave',
     levels: 3,
-    damage: [1, 2.5, 4],
+    damage: [2.5, 4, 6],
     cost: [300, 500, 750],
     sprite: [5,10,11],
     shopSprite: 35,
@@ -24,9 +24,9 @@ export default  [{
     speed: 800,
     rotating: false,
     acceleration: 0,
-    reload: 300,
+    reload: 200,
     size: 3,
-    description: `Work has been put in to make this blaster have a wider beam. This comes at the cost of destruction potential.`
+    description: `Work has been put in to make this blaster have a wider beam hand fire faster. This comes at the cost of destruction potential.`
 },
 {
     name: 'Rockets',
@@ -51,7 +51,7 @@ export default  [{
     sprite:[27,26],
     shopSprite: 27,
     sound: 'player-laser', 
-    speed: 200,
+    speed: 250,
     rotating: true,
     acceleration: 0,
     reload: 1000,

@@ -17,7 +17,6 @@ export default class Player extends Entity {
       this.laserType=data.laser
       this.damageAmount=this.character.damage*Weapons[this.laserType].damage[this.weaponsOwned[this.laserType]]
       this.burner= new Burner(this.scene, this.x-20, this.y, 44,47, false, 3)
-      console.log(Weapons[0])
       
       this.setData('isShooting', false);
 

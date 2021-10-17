@@ -11,7 +11,7 @@ export default class SpinningGunShip extends Entity {
       };
       this.damageAmount=1
       this.hp = 35;
-      this.reward=40
+      this.reward=75
       this.rays = []
       this.setScale(3)
       this.state = this.states.MOVE_LEFT;
