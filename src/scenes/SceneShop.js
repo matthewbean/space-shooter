@@ -117,8 +117,12 @@ export default class SceneShop extends Phaser.Scene {
         this.cursor.y=192+this.game.config.height*this.cursor.getData('position')*.1
         if (this.keyE.isDown){
           this.cursor.setData('canMove', false)
-          if (this.cursor.getData('position') < this.weapons.length && this.weaponsOwned[this.cursor.getData('position')]>=0) this.equipped=this.cursor.getData('position')
-          this.equippedLabel.y=this.game.config.height*(this.equipped)*.1+205
+          
+          if (this.cursor.getData('position') < this.weapons.length && this.weaponsOwned[this.cursor.getData('position')]>=0) {
+            this.equipped=this.cursor.getData('position')
+            this.equippedLabel.y=this.game.config.height*(this.equipped)*.1+205
+            this.menuSelect.play()
+          }
           this.time.addEvent({
             delay: 200,
             callback: function () {
@@ -142,7 +146,7 @@ export default class SceneShop extends Phaser.Scene {
 
           
           if (this.cursor.getData('position')  == this.weapons.length){
-            this.scene.start('SceneMain', {money: this.money, weaponsOwned: this.weaponsOwned, music:true, character: {laser: this.equipped, ship: this.character}, level: this.level });
+            this.scene.start('SceneMain', {money: this.money, weaponsOwned: this.weaponsOwned, music:false, character: {laser: this.equipped, ship: this.character}, level: this.level });
           } 
           else {
             let cost = Weapons[this.cursor.getData('position')].cost[this.weaponsOwned[this.cursor.getData('position')]+1]

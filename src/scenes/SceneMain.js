@@ -48,6 +48,8 @@ export default class SceneMain extends Phaser.Scene {
         this.load.setPath('./assets/sounds')
       //load music and sound effects
       this.load.audio('player-laser', ['player-laser-2.wav']);  
+      this.load.audio('wave', ['player-laser2.mp3']);  
+      this.load.audio('rocket', ['rocket.mp3']);  
       this.load.audio('explosion-1', ['explosion-1.wav']);  
       this.load.audio('explosion-2', ['explosion-2.wav']);  
       this.load.audio('explosion-3', ['explosion-3.wav']);  

@@ -11,7 +11,8 @@ export default  [{
     acceleration: 0,
     reload: 250,
     size: 3,
-    description: `Standard issued blaster, it's not much, but it gets the job done.`
+    description: `Standard issued blaster, it's not much, but it gets the job done.`,
+    volume: .6
 },
 {
     name: 'Wave',
@@ -20,13 +21,14 @@ export default  [{
     cost: [300, 500, 750],
     sprite: [5,10,11],
     shopSprite: 35,
-    sound: 'player-laser', 
+    sound: 'wave', 
     speed: 800,
     rotating: false,
     acceleration: 0,
     reload: 200,
     size: 3,
-    description: `Work has been put in to make this blaster have a wider beam hand fire faster. This comes at the cost of destruction potential.`
+    description: `Work has been put in to make this blaster have a wider beam hand fire faster. This comes at the cost of destruction potential.`,
+    volume: .4
 },
 {
     name: 'Rockets',
@@ -35,13 +37,14 @@ export default  [{
     cost: [500, 1000, 1500],
     sprite: [16,17,23],
     shopSprite: 38,
-    sound: 'player-laser', 
+    sound: 'rocket', 
     speed: 200,
     rotating: false,
     acceleration: 20,
     reload: 600,
     size: 3,
-    description: `While for the most part these have been left behind for more flexible energy weapons, these 'obsolete' weapons still  pack quite a punch`
+    description: `While for the most part these have been left behind for more flexible energy weapons, these 'obsolete' weapons still  pack quite a punch`,
+    volume: .32
 },
 {
     name: 'BuzzSaw',
@@ -50,13 +53,14 @@ export default  [{
     cost: [1000, 2000],
     sprite:[27,26],
     shopSprite: 27,
-    sound: 'player-laser', 
+    sound: 'rocket', 
     speed: 250,
     rotating: true,
     acceleration: 0,
     reload: 1000,
     size: 3,
-    description: `This crude weapon is extremely slow, but is capable of immense destruction`
+    description: `This crude weapon is extremely slow, but is capable of immense destruction`,
+    volume: .4
 },
 
 ]
