@@ -14,8 +14,8 @@ export default class SceneGameOver extends Phaser.Scene {
       { frameWidth: 8, frameHeight: 8 }
     );
     this.load.setPath('./assets/sounds')
-    this.load.audio('menu-move', ['menu-move.wav']);  
-    this.load.audio('menu-select', ['menu-select.wav']);  
+    this.load.audio('menu-move', ['menu-move.mp3']);  
+    this.load.audio('menu-select', ['menu-select.mp3']);  
   }
   create(data) {
     // this.scene.start('SceneMain', {character:1})

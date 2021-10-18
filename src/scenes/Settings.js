@@ -12,9 +12,9 @@ export default class Settings extends Phaser.Scene {
         { frameWidth: 8, frameHeight: 8 }
       );
       this.load.setPath('./assets/sounds')
-      this.load.audio('menu-move', ['menu-move.wav']);  
-      this.load.audio('menu-select', ['menu-select.wav']);  
-      this.load.audio('the-longest-year', ['the-longest-year.wav']);  
+      this.load.audio('menu-move', ['menu-move.mp3']);  
+      this.load.audio('menu-select', ['menu-select.mp3']);  
+      this.load.audio('the-longest-year', ['the-longest-year.mp3']);  
     }
     create(data) {
       //set up sound in music

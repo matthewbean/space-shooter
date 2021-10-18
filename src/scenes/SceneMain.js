@@ -47,15 +47,16 @@ export default class SceneMain extends Phaser.Scene {
         );  
         this.load.setPath('./assets/sounds')
       //load music and sound effects
-      this.load.audio('player-laser', ['player-laser-2.wav']);  
-      this.load.audio('wave', ['player-laser2.mp3']);  
+      this.load.audio('player-laser', ['player-laser-2.mp3']);  
+      this.load.audio('mp3e', ['player-laser2.mp3']);  
       this.load.audio('rocket', ['rocket.mp3']);  
-      this.load.audio('explosion-1', ['explosion-1.wav']);  
-      this.load.audio('explosion-2', ['explosion-2.wav']);  
-      this.load.audio('explosion-3', ['explosion-3.wav']);  
-      this.load.audio('explosion-4', ['explosion-4.wav']);  
-      this.load.audio('soundtrack', ['neon-trip.mp3']);  
-      this.load.audio('take-damage', ['take-damage.wav']);  
+      this.load.audio('explosion-1', ['explosion-1.mp3']);  
+      this.load.audio('explosion-2', ['explosion-2.mp3']);  
+      this.load.audio('explosion-3', ['explosion-3.mp3']);  
+      this.load.audio('explosion-4', ['explosion-4.mp3']);  
+      this.load.audio('soundtrack-intro', ['neon-trip-intro.mp3']);  
+      this.load.audio('soundtrack-main', ['neon-trip-main.mp3']);  
+      this.load.audio('take-damage', ['take-damage.mp3']);  
 
   }
   
@@ -95,8 +96,12 @@ export default class SceneMain extends Phaser.Scene {
     
     this.health= new HP(this, 20,20, 15)
     if (!data.music){
-      this.soundtrack = this.sound.add('soundtrack', {volume: this.settings.music })
-      this.soundtrack.play()
+      this.soundtrackIntro = this.sound.add('soundtrack-intro', {volume: this.settings.music })
+      this.soundtrack = this.sound.add('soundtrack-main', {volume: this.settings.music, loop: true})
+      this.soundtrackIntro.play()
+      this.soundtrackIntro.once('complete', function(music){
+        this.soundtrack.play()
+      }.bind(this));
     }
     this.takeDamage=this.sound.add('take-damage', {volume: this.settings.sfx/2}).setDetune(1200)
     

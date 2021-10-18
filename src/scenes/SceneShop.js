@@ -14,8 +14,8 @@ export default class SceneShop extends Phaser.Scene {
     );  
    
     this.load.setPath('./assets/sounds')
-    this.load.audio('menu-move', ['menu-move.wav']);  
-    this.load.audio('menu-select', ['menu-select.wav']);  
+    this.load.audio('menu-move', ['menu-move.mp3']);  
+    this.load.audio('menu-select', ['menu-select.mp3']);  
     }
     create(data) {
       this.equipped=data.character?.laser ?? 0
@@ -146,7 +146,7 @@ export default class SceneShop extends Phaser.Scene {
 
           
           if (this.cursor.getData('position')  == this.weapons.length){
-            this.scene.start('SceneMain', {money: this.money, weaponsOwned: this.weaponsOwned, music:false, character: {laser: this.equipped, ship: this.character}, level: this.level });
+            this.scene.start('SceneMain', {money: this.money, weaponsOwned: this.weaponsOwned, music:true, character: {laser: this.equipped, ship: this.character}, level: this.level });
           } 
           else {
             let cost = Weapons[this.cursor.getData('position')].cost[this.weaponsOwned[this.cursor.getData('position')]+1]
