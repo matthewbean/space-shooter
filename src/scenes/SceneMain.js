@@ -2,6 +2,7 @@ import CarrierShip from '../entities/CarrierShip'
 import ChaserShip from '../entities/ChaserShip'
 import Player from '../entities/Player'
 import GunShip from '../entities/GunShip'
+import Boss1 from '../entities/Boss1'
 import SpinningGunShip from '../entities/SpinningGunShip'
 import Levels from '../utilities/Levels'
 import HP from '../hud/HP'
@@ -58,6 +59,8 @@ export default class SceneMain extends Phaser.Scene {
       this.load.audio('soundtrack-main', ['neon-trip-main.mp3']);  
       this.load.audio('take-damage', ['take-damage.mp3']);  
 
+      this.load.plugin('rexmovetoplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexmovetoplugin.min.js', true);
+      this.load.plugin('rexshakepositionplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexshakepositionplugin.min.js', true);
   }
   
   create(data) {
@@ -119,7 +122,6 @@ export default class SceneMain extends Phaser.Scene {
     ) {
       
       if (enemy) {
-        enemy.flicker()
         enemy.damage(true, playerLaser.damageAmount);
         playerLaser.onDestroy();
         playerLaser.destroy()
@@ -131,7 +133,6 @@ export default class SceneMain extends Phaser.Scene {
     ) {
       
       if (mine) {
-        mine.flicker()
         mine.damage(true, playerLaser.damageAmount);
         playerLaser.onDestroy();
         playerLaser.destroy()
@@ -143,7 +144,6 @@ export default class SceneMain extends Phaser.Scene {
     ) {
       if (!player.getData('isDead') && !mine.getData('isDead')) {
         player.damage(false, mine.damageAmount);
-        player.flicker()
         this.takeDamage.play()
         if (this.settings.cameraShake){this.cameras.main.shake(100, .009);}
         mine.hp=1;
@@ -156,7 +156,6 @@ export default class SceneMain extends Phaser.Scene {
     ) {
       if (!enemy.getData('isDead') && !mine.getData('isDead') && mine.state === mine.states.CHASE) {
         enemy.damage(false, mine.hp);
-        enemy.flicker()
         if (this.settings.cameraShake){this.cameras.main.shake(100, .009);}
         mine.hp=1;
         mine.damage(true, 100);
@@ -169,10 +168,9 @@ export default class SceneMain extends Phaser.Scene {
     ) {
       if (!player.getData('isDead') && !enemy.getData('isDead')) {
         player.damage(false, enemy.damageAmount);
-        player.flicker()
         this.takeDamage.play()
         if (this.settings.cameraShake){this.cameras.main.shake(100, .009);}
-        enemy.hp=1;
+        if (enemy.getData('type')!=='Boss1')enemy.hp=1;
         enemy.damage(true, player.damageAmount);
       }
     }.bind(this));
@@ -182,7 +180,6 @@ export default class SceneMain extends Phaser.Scene {
       laser
     ) {
       if (!player.getData('isDead') && !laser.getData('isDead')) {
-        player.flicker()
         this.takeDamage.play()
         player.damage(false, laser.damageAmount);
         if (this.settings.cameraShake){this.cameras.main.shake(100, .005);}
@@ -194,7 +191,7 @@ export default class SceneMain extends Phaser.Scene {
   this.money= data.money ?? 0
   this.moneyDisplay=this.add.text(this.game.config.width-20, 30, `$${this.money}`, {fontSize: `20px`, fontFamily: `font1`}).setOrigin(1)
   //control level
-  this.level= data.level??0;
+  this.level= data.level??9;
   this.multiplier=1
   this.play=true
   this.multiplierText=this.add.text(this.game.config.width-20, 50, `Multiplier: ${this.multiplier}x`, {fontSize: `20px`, fontFamily: `font1`}).setOrigin(1)
@@ -202,7 +199,7 @@ export default class SceneMain extends Phaser.Scene {
   this.subtitle=this.add.text(this.game.config.width*.5, 250, ``, {fontSize:'24px', fontFamily: 'font1'}).setOrigin(.5)
   
   this.announce=()=>this.time.addEvent({
-    delay: 3000,
+    delay: 300,
     callback: function(){
       this.play=true
       this.playLoop= this.addEnemies()
@@ -247,7 +244,7 @@ export default class SceneMain extends Phaser.Scene {
     callbackScope: this,
     loop: false
   })
-  this.shop()
+  this.announce()
 
 
   //add main loop to create enemies
@@ -291,6 +288,15 @@ export default class SceneMain extends Phaser.Scene {
           );
           
         }
+        else if (enemyNumber<=Levels[this.level].enemies[4] &&
+          this.getEnemiesByType('Boss1').length < 1) {
+          enemy = new Boss1(
+            this,
+            this.game.config.width-200,
+            Phaser.Math.Between(50, this.game.config.height  - 50)
+          );
+          }
+          
         if (enemy?.getData('type') === 'ChaserShip')this.mines.add(enemy)
         else if (enemy)this.enemies.add(enemy);
       }

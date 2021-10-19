@@ -4,7 +4,7 @@ export default [
         subtitle: 'Watch for Mines',
         level: 1,
         spawnTimer: 3000,
-        enemies:[0,100,0,0],
+        enemies:[0,100,0,0,0],
         length: 20000
     },
     {
@@ -12,7 +12,7 @@ export default [
         subtitle: 'Here come the scouts',
         level: 2,
         spawnTimer: 3000,
-        enemies:[25,100,0,0],
+        enemies:[25,100,0,0,0],
         length: 20000
     },
     {
@@ -20,7 +20,7 @@ export default [
         subtitle: 'Be on watch',
         level: 3,
         spawnTimer: 2500,
-        enemies:[50,100,0,0],
+        enemies:[50,100,0,0,0],
         length: 30000
     },
     {
@@ -28,7 +28,7 @@ export default [
         subtitle: 'Counter Force',
         level: 3,
         spawnTimer: 1500,
-        enemies:[100,0,0,0],
+        enemies:[100,0,0,0,0],
         length: 30000
     },
     {
@@ -36,7 +36,7 @@ export default [
         subtitle: 'Bring in the Carrier Ship',
         level: 3,
         spawnTimer: 2500,
-        enemies:[25,50,0,100],
+        enemies:[25,50,0,100,0],
         length: 30000
     },
     {
@@ -44,7 +44,7 @@ export default [
         subtitle: 'Mine Sweeper',
         level: 3,
         spawnTimer: 500,
-        enemies:[0,100,0,0],
+        enemies:[0,100,0,0,0],
         length: 10000
     },
     {
@@ -52,7 +52,7 @@ export default [
         subtitle: 'Full Force',
         level: 3,
         spawnTimer: 2000,
-        enemies:[25,75,0,100],
+        enemies:[25,75,0,100,0],
         length: 30000
     },
     {
@@ -60,7 +60,7 @@ export default [
         subtitle: 'I\'m getting dizzy',
         level: 3,
         spawnTimer: 2000,
-        enemies:[50,0,75,100],
+        enemies:[50,0,75,100,0],
         length: 30000
     },
     {
@@ -68,15 +68,15 @@ export default [
         subtitle: 'We must stop them',
         level: 3,
         spawnTimer: 1000,
-        enemies:[25,50,75,100],
+        enemies:[25,50,75,100,0],
         length: 30000
     },
     {
         name: 'Wave 10',
-        subtitle: 'Own no, the bosses here',
+        subtitle: 'Own no, the boss is here',
         level: 3,
         spawnTimer: 2500,
-        enemies:[50,50,0,0],
+        enemies:[0,0,0,0,100],
         length: 30000
     }
 ]

@@ -10,6 +10,7 @@ export default class Player extends Entity {
       this.weaponsOwned=weaponsOwned
       this.setData('speed', this.character.speed*75);
       this.setData('canShoot', true)
+      this.setData('canDamage', true)
       this.maxHP=this.character.hp;
       this.hp = this.character.hp;
       this.setScale(4)
@@ -52,6 +53,7 @@ export default class Player extends Entity {
     }
     
     moveUp() {
+      console.log(this.scene.playerLasers.getChildren())
       if (this.y>20){
       this.body.velocity.y = -this.getData('speed');
       }

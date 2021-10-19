@@ -11,9 +11,25 @@ export default class Entity extends Phaser.GameObjects.Sprite {
 
   }
   damage(canDestroy, damage) {
+    if (this.scene.tweens.getTweensOf(this).length<1)this.flicker()
     if (!this.getData('isDead')) {
-
-      this.hp-= damage;
+      if (this.getData('canDamage') !==undefined){
+        if (this.getData('canDamage')){
+          this.setData('canDamage', false)
+          this.hp-=damage
+          console.log(this.hp)
+          this.scene.time.addEvent({
+            delay: 300,
+            callback: function () {
+              this.setData('canDamage', true)
+            },
+            callbackScope: this,
+            loop: false,
+          });
+        }
+      } else {
+        this.hp-= damage;
+      }
       if (this.hp <= 0 && this.getData('type') !== 'laser' ) {
         new Explosion(this.scene, this.x, this.y, this.explosionFrames[0], this.explosionFrames[1], this.scale)
         if (this.reward){
