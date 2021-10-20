@@ -184,6 +184,7 @@ export default class SceneMain extends Phaser.Scene {
         player.damage(false, laser.damageAmount);
         if (this.settings.cameraShake){this.cameras.main.shake(100, .005);}
         laser.destroy();
+        laser.onDestroy();
       }
     }.bind(this));
     this.input.on('pointerdown', function () {
@@ -292,8 +293,8 @@ export default class SceneMain extends Phaser.Scene {
           this.getEnemiesByType('Boss1').length < 1) {
           enemy = new Boss1(
             this,
-            this.game.config.width-200,
-            Phaser.Math.Between(50, this.game.config.height  - 50)
+            this.game.config.width,
+            300
           );
           }
           

@@ -77,6 +77,6 @@ export default [
         level: 3,
         spawnTimer: 2500,
         enemies:[0,0,0,0,100],
-        length: 30000
+        length: 3000000
     }
 ]
