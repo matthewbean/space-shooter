@@ -234,7 +234,7 @@ export default class SceneMain extends Phaser.Scene {
       loop: false
   })}}
   this.break=()=>this.time.addEvent({
-    delay: 15000,
+    delay: 10000,
     callback: function(){
       this.play=false
       if (this.level+1<this.levelsLength){
@@ -291,7 +291,7 @@ export default class SceneMain extends Phaser.Scene {
           enemy = new GunShip(
             this,
             this.game.config.width + 20,
-            Phaser.Math.Between(50, this.game.config.height  - 50)
+            Phaser.Math.Between(100, this.game.config.height  - 100)
           );
           
         } else if (enemyNumber<=Levels[this.level].enemies[1]) {
