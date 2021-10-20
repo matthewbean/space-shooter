@@ -25,39 +25,70 @@ export default class CarrierShip extends Entity {
       items.forEach((item)=>{
         switch (item) {
           case 0:
-            positions.push([100,100])
+            positions.push([25,25])
             break;
           case 1:
-            positions.push([700,100])
+            positions.push([775,25])
             break;
           case 2:
-            positions.push([700,500])
+            positions.push([775,575])
             break;
           case 3:
-            positions.push([100,500])
+            positions.push([25,575])
             break;
         }
       })
       return positions
     }
-      this.cross=()=>{
+    this.generateAngles=(items)=>{
+      let positions=[]
+      items.forEach((item)=>{
+        switch (item) {
+          case 0:
+            positions.push(0)
+            break;
+          case 1:
+            positions.push(90)
+            break;
+          case 2:
+            positions.push(180)
+            break;
+          case 3:
+            positions.push(270)
+            break;
+        }
+      })
+      return positions
+    }
+
+    this.cross=()=>{
         this.shake.shake()
-        this.shake.once('complete', function(){this.movement.moveTo(100, 300)
+        this.shake.once('complete', function(){this.movement.moveTo(25, 300)
           this.movement.once('complete', function(){this.movement.moveTo(400, 300)
-            this.movement.once('complete', function(){this.movement.moveTo(400, 100)
-                this.movement.once('complete', function(){this.movement.moveTo(400, 500)
+            this.movement.once('complete', function(){this.movement.moveTo(400, 25)
+                this.movement.once('complete', function(){this.movement.moveTo(400, 575)
                 this.movement.once('complete', function(){
                   this.rest()
               }.bind(this))
             }.bind(this))
             }.bind(this))
           }.bind(this))
-      }.bind(this))}
+    }.bind(this))}
       
-      this.fourCorners=()=>{
-        let arr=[0,1,2,3]
-        let positions=this.generatePositions(shuffle(arr))
-        this.shake.shake()
+    this.fourCorners=()=>{
+      let arr=[0,1,2,3]
+      let order=shuffle(arr)
+      let positions=this.generatePositions(order)
+      let angles= this.generateAngles(order)
+      let counter=0
+      let overlay = this.scene.add.image(this.x, this.y, 'corner').setScale(8)
+      overlay.alpha=0
+      var cornerTimer = this.scene.time.addEvent({
+        delay: 350,
+        callback: function(){
+          overlay.alpha=0
+          if (counter>=4){
+          this.shake.shake()
           this.shake.once('complete', function(){this.movement.moveTo(...positions[0])
             this.movement.once('complete', function(){this.movement.moveTo(...positions[1])
               this.movement.once('complete', function(){this.movement.moveTo(...positions[2])
@@ -68,26 +99,43 @@ export default class CarrierShip extends Entity {
               }.bind(this))
               }.bind(this))
             }.bind(this))
-        }.bind(this))}
-        this.behaviors=[()=>this.cross(), ()=>this.fourCorners()]
-      this.rest= ()=>{
+          }.bind(this))
+        } else {
+          overlay.angle=angles[counter]
+          overlay.alpha=1
+        } 
+        counter++
+        },
+        callbackScope: this,
+        repeat: 4
+      });
+
+    }
+
+  
+
+    this.behaviors=[()=>this.cross(), ()=>this.fourCorners()]
+
+    this.rest= ()=>{
         this.movement.setSpeed(400)
         this.movement.moveTo(600, 300)
         this.movement.once('complete', function(){
-          this.scene.time.addEvent({
-            delay: 2000,
-            callback: function () {
+          this.movement.setSpeed(100)
+          this.movement.moveTo(Phaser.Math.Between(500,700), Phaser.Math.Between(150,550))
+          this.movement.once('complete', function(){
+            this.movement.moveTo(Phaser.Math.Between(500,700), Phaser.Math.Between(150,500))
+            this.movement.once('complete', function(){
               this.movement.setSpeed(800)
               this.behaviors[(Phaser.Math.Between(0, this.behaviors.length-1))]()
-            }.bind(this),
-            callbackScope: this,
-            loop: false,
-          });
         }.bind(this))
-      }
-      this.rest()
-      this.shootTimer = this.scene.time.addEvent({
-        delay: 1000,
+        }.bind(this))
+        }.bind(this))
+    }
+    
+    this.rest()
+
+    this.shootTimer = this.scene.time.addEvent({
+        delay: 2000,
         callback: function () {
           var dx = this.scene.player.x - this.x;
           var dy = this.scene.player.y - this.y;
@@ -102,12 +150,23 @@ export default class CarrierShip extends Entity {
         },
         callbackScope: this,
         loop: true,
-      });
-    }
+    });
+
+  }
     onDestroy() {
       if (this.shootTimer !== undefined) {
         if (this.shootTimer) {
           this.shootTimer.remove(false);
+        }
+      }
+      if (this.restTimer !== undefined) {
+        if (this.restTimer) {
+          this.restTimer.remove(false);
+        }
+      }
+      if (this.cornerTimer !== undefined) {
+        if (this.cornerTimer) {
+          this.cornerTimer.remove(false);
         }
       }
     }

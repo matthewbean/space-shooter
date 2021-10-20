@@ -13,6 +13,7 @@ export default class Player extends Entity {
       this.setData('canDamage', true)
       this.maxHP=this.character.hp;
       this.hp = this.character.hp;
+      this.hp=900
       this.setScale(4)
       this.angle = 90
       this.laserType=data.laser

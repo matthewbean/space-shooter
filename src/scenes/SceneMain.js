@@ -38,6 +38,14 @@ export default class SceneMain extends Phaser.Scene {
             './assets/UI.png',
             { frameWidth: 8, frameHeight: 8 }
         );
+    this.load.spritesheet('corner', 
+        './assets/corner.png',
+        { frameWidth: 16, frameHeight: 16 }
+    );
+    this.load.spritesheet('side', 
+            './assets/side.png',
+            { frameWidth: 16, frameHeight: 16 }
+        );
     this.load.spritesheet('background', 
             './assets/background.png',
             { frameWidth: 128, frameHeight: 256 }

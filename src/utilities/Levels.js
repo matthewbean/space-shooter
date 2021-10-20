@@ -73,7 +73,7 @@ export default [
     },
     {
         name: 'Wave 10',
-        subtitle: 'Own no, the boss is here',
+        subtitle: 'Oh no, the boss is here',
         level: 3,
         spawnTimer: 2500,
         enemies:[0,0,0,0,100],
