@@ -5,7 +5,7 @@ export default class GunShip extends Entity {
       super(scene, x, y, 'enemy-ships', 'gunShip', 24, [83, 86]);
       
       this.body.velocity.x = Phaser.Math.Between(-50, -100);
-      this.hp = 25;
+      this.hp = 25+25*this.scene.gameCounter/2;
       this.reward=30
       this.damageAmount=1
       this.setScale(4)

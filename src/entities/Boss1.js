@@ -6,7 +6,7 @@ var shuffle = require('lodash/shuffle');
 export default class CarrierShip extends Entity {
     constructor(scene, x, y) {
       super(scene, x, y, 'boss-ships', 'Boss1', 4, [99, 102]);
-      this.hp = 1000;
+      this.hp = 1000+1000*this.scene.gameCounter/2;
       this.reward=750;
       this.angle = -90
       this.setScale(8)
@@ -123,10 +123,13 @@ export default class CarrierShip extends Entity {
           this.movement.setSpeed(100)
           this.movement.moveTo(Phaser.Math.Between(500,700), Phaser.Math.Between(150,550))
           this.movement.once('complete', function(){
-            this.movement.moveTo(Phaser.Math.Between(500,700), Phaser.Math.Between(150,500))
+            this.movement.moveTo(Phaser.Math.Between(500,700), Phaser.Math.Between(150,550))
+            this.movement.once('complete', function(){
+              this.movement.moveTo(Phaser.Math.Between(500,700), Phaser.Math.Between(150,550))
             this.movement.once('complete', function(){
               this.movement.setSpeed(800)
               this.behaviors[(Phaser.Math.Between(0, this.behaviors.length-1))]()
+        }.bind(this))
         }.bind(this))
         }.bind(this))
         }.bind(this))
@@ -169,6 +172,25 @@ export default class CarrierShip extends Entity {
           this.cornerTimer.remove(false);
         }
       }
+      this.scene.time.addEvent({
+        delay: 2000,
+        callback: function () {
+          if (this.level+1<this.levelsLength){
+            this.level++
+          }
+           else {
+            this.gameCounter++
+            this.level=0
+           }
+           this.play=false
+          this.playLoop.remove(false)
+          this.announcement.text=`Press E to enter shop`
+          this.subtitle.text=`This will heal you but reset your multiplier`
+          this.shop()
+        },
+        callbackScope: this.scene,
+        loop: false,
+    });
     }
     
   }

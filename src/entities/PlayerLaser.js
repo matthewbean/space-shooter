@@ -29,6 +29,7 @@ export default class PlayerLaser extends Entity {
   }
   }
   onDestroy() {
+    console.log()
     if (this.acceleration !== undefined) {
       if (this.acceleration) {
         this.acceleration.remove(false);

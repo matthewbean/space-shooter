@@ -61,7 +61,7 @@ export default [
         level: 3,
         spawnTimer: 2000,
         enemies:[50,0,75,100,0],
-        length: 30000
+        length: 3000
     },
     {
         name: 'Wave 9',
@@ -69,7 +69,7 @@ export default [
         level: 3,
         spawnTimer: 1000,
         enemies:[25,50,75,100,0],
-        length: 30000
+        length: 3000
     },
     {
         name: 'Wave 10',
@@ -77,6 +77,6 @@ export default [
         level: 3,
         spawnTimer: 2500,
         enemies:[0,0,0,0,100],
-        length: 3000000
+        length: 0
     }
 ]

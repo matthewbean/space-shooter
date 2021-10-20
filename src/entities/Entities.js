@@ -17,7 +17,6 @@ export default class Entity extends Phaser.GameObjects.Sprite {
         if (this.getData('canDamage')){
           this.setData('canDamage', false)
           this.hp-=damage
-          console.log(this.hp)
           this.scene.time.addEvent({
             delay: 300,
             callback: function () {
@@ -36,6 +35,7 @@ export default class Entity extends Phaser.GameObjects.Sprite {
         this.scene.money+=this.reward*this.scene.multiplier
         this.scene.moneyDisplay.text=`$${this.scene.money}`
         }
+        this.onDestroy && this.onDestroy()
         
         this.setAngle(0);
         this.body.setVelocity(0, 0);
@@ -54,6 +54,8 @@ export default class Entity extends Phaser.GameObjects.Sprite {
         } else {
           this.setVisible(false);
         }
+        
+
         this.setData('isDead', true);
         if (this.cleanUp){
           this.cleanUp()

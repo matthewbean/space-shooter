@@ -4,7 +4,7 @@ export default class ChaserShip extends Entity {
     constructor(scene, x, y) {
       super(scene, x, y, 'projectiles', 'ChaserShip', 22, [83, 86]);
       this.reward=25
-      this.hp = 25;
+      this.hp = 25+25*this.scene.gameCounter/2;
       this.body.setSize(6,6)
       this.setScale(4)
       this.damageAmount=1

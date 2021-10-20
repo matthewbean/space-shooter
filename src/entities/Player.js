@@ -13,7 +13,6 @@ export default class Player extends Entity {
       this.setData('canDamage', true)
       this.maxHP=this.character.hp;
       this.hp = this.character.hp;
-      this.hp=900
       this.setScale(4)
       this.angle = 90
       this.laserType=data.laser
@@ -54,7 +53,6 @@ export default class Player extends Entity {
     }
     
     moveUp() {
-      console.log(this.scene.playerLasers.getChildren())
       if (this.y>20){
       this.body.velocity.y = -this.getData('speed');
       }
@@ -116,7 +114,7 @@ export default class Player extends Entity {
           
         }
         if (this.keyE.isDown && !this.scene.play){
-          this.scene.scene.start('SceneShop', {character:this.scene.data.character, money:this.scene.money, level:this.scene.level, weaponsOwned: this.weaponsOwned})
+          this.scene.scene.start('SceneShop', {character:this.scene.data.character, gameCounter: this.scene.gameCounter, money:this.scene.money, level:this.scene.level, weaponsOwned: this.weaponsOwned})
         }
   
         if (this.keySpace.isDown || this.scene.settings.autoFire) {
@@ -138,7 +136,7 @@ export default class Player extends Entity {
         this.scene.time.addEvent({
           delay: 3000,
           callback: function () {
-            this.scene.scene.start('SceneGameOver', {level: this.scene.level, character:this.scene.data.character, money:this.scene.money, music:true, weaponsOwned: this.weaponsOwned})
+            this.scene.scene.start('SceneGameOver', {level: this.scene.level, gameCounter: 10, character:this.scene.data.character, money:this.scene.money, music:true, weaponsOwned: this.weaponsOwned})
           },
           callbackScope: this,
           loop: false,

@@ -10,7 +10,7 @@ export default class SpinningGunShip extends Entity {
         COOLDOWN: 'COOLDOWN'
       };
       this.damageAmount=1
-      this.hp = 35;
+      this.hp = 25+25*this.scene.gameCounter/2;
       this.reward=75
       this.rays = []
       this.setScale(3)

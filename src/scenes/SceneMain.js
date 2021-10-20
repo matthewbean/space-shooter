@@ -200,7 +200,10 @@ export default class SceneMain extends Phaser.Scene {
   this.money= data.money ?? 0
   this.moneyDisplay=this.add.text(this.game.config.width-20, 30, `$${this.money}`, {fontSize: `20px`, fontFamily: `font1`}).setOrigin(1)
   //control level
-  this.level= data.level??9;
+  this.level= data.level??0;
+  this.gameCounter= data.gameCounter??0;
+  this.levelsLength=Levels.length
+  console.log(this.gameCounter)
   this.multiplier=1
   this.play=true
   this.multiplierText=this.add.text(this.game.config.width-20, 50, `Multiplier: ${this.multiplier}x`, {fontSize: `20px`, fontFamily: `font1`}).setOrigin(1)
@@ -208,7 +211,7 @@ export default class SceneMain extends Phaser.Scene {
   this.subtitle=this.add.text(this.game.config.width*.5, 250, ``, {fontSize:'24px', fontFamily: 'font1'}).setOrigin(.5)
   
   this.announce=()=>this.time.addEvent({
-    delay: 300,
+    delay: 3000,
     callback: function(){
       this.play=true
       this.playLoop= this.addEnemies()
@@ -219,21 +222,28 @@ export default class SceneMain extends Phaser.Scene {
     callbackScope: this,
     loop: false
   })
-  this.levelTimer=()=>this.time.addEvent({
-    delay: Levels[this.level].length,
-    callback: function(){
-      this.playLoop.remove(false)
-      this.announcement.text=``
-      this.break()
-    },
-    callbackScope: this,
-    loop: false
-  })
+  this.levelTimer=()=>{ 
+    if (Levels[this.level].length >0){this.time.addEvent({
+      delay: Levels[this.level].length,
+      callback: function(){
+        this.playLoop.remove(false)
+        this.announcement.text=``
+        this.break()
+      },
+      callbackScope: this,
+      loop: false
+  })}}
   this.break=()=>this.time.addEvent({
     delay: 15000,
     callback: function(){
       this.play=false
-      this.level++
+      if (this.level+1<this.levelsLength){
+        this.level++}
+       else {
+        this.gameCounter++
+        this.level=0
+       }
+
       this.multiplier= Phaser.Math.RoundTo(this.multiplier+0.2, -1)
       this.multiplierText.text=`${this.multiplier}x`
       this.announcement.text=`Press E to enter shop`
@@ -246,14 +256,26 @@ export default class SceneMain extends Phaser.Scene {
   this.shop=()=>this.time.addEvent({
     delay: 7000,
     callback: function(){
-      this.announcement.text=`${Levels[this.level].name}`
+
+      this.announcement.text=`${Levels[this.level].name} ${this.gameCounter>0?`- game+${this.gameCounter}`:''}`
       this.subtitle.text=`${Levels[this.level].subtitle}`
       this.announce()
     },
     callbackScope: this,
     loop: false
   })
-  this.announce()
+  this.time.addEvent({
+    delay: 2500,
+    callback: function(){
+
+      this.announcement.text=`${Levels[this.level].name} ${this.gameCounter>0?`- game+${this.gameCounter}`:''}`
+      this.subtitle.text=`${Levels[this.level].subtitle}`
+      this.announce()
+    },
+    callbackScope: this,
+    loop: false
+  })
+  
 
 
   //add main loop to create enemies
@@ -305,9 +327,9 @@ export default class SceneMain extends Phaser.Scene {
             300
           );
           }
-          
         if (enemy?.getData('type') === 'ChaserShip')this.mines.add(enemy)
         else if (enemy)this.enemies.add(enemy);
+
       }
 
       },

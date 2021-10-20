@@ -19,6 +19,7 @@ export default class SceneShop extends Phaser.Scene {
     }
     create(data) {
       this.equipped=data.character?.laser ?? 0
+      this.gameCounter=data.gameCounter ?? 0
       this.character=data.character?.ship ?? 0
       this.weaponsOwned= data.weaponsOwned??[0,-1,-1, -1]      
       this.money = data.money??3000;
@@ -146,7 +147,7 @@ export default class SceneShop extends Phaser.Scene {
 
           
           if (this.cursor.getData('position')  == this.weapons.length){
-            this.scene.start('SceneMain', {money: this.money, weaponsOwned: this.weaponsOwned, music:true, character: {laser: this.equipped, ship: this.character}, level: this.level });
+            this.scene.start('SceneMain', {money: this.money, gameCounter: this.gameCounter, weaponsOwned: this.weaponsOwned, music:true, character: {laser: this.equipped, ship: this.character}, level: this.level });
           } 
           else {
             let cost = Weapons[this.cursor.getData('position')].cost[this.weaponsOwned[this.cursor.getData('position')]+1]
