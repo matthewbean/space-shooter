@@ -218,7 +218,6 @@ export default class SceneMain extends Phaser.Scene {
   this.level= data.level??0;
   this.gameCounter= data.gameCounter??0;
   this.levelsLength=Levels.length
-  console.log(this.gameCounter)
   this.multiplier=1
   this.play=true
   this.multiplierText=this.add.text(this.game.config.width-20, 50, `Multiplier: ${this.multiplier}x`, {fontSize: `20px`, fontFamily: `font1`}).setOrigin(1)
