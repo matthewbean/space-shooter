@@ -30,6 +30,9 @@ var config = {
   // },
     pixelArt: true,
     roundPixels: false,
+    style: {
+      fill: '#000'
+  }
   };
   
 export var game = new Phaser.Game(config);
