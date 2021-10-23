@@ -136,7 +136,7 @@ export default class Player extends Entity {
         this.scene.time.addEvent({
           delay: 3000,
           callback: function () {
-            this.scene.scene.start('SceneGameOver', {level: this.scene.level, gameCounter: 10, character:this.scene.data.character, money:this.scene.money, music:true, weaponsOwned: this.weaponsOwned})
+            this.scene.scene.start('SceneGameOver', {level: this.scene.level, gameCounter: this.scene.gameCounter, character:this.scene.data.character, money:this.scene.money, music:true, weaponsOwned: this.weaponsOwned})
           },
           callbackScope: this,
           loop: false,
