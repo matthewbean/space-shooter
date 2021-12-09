@@ -12,27 +12,30 @@ export default class SceneMain extends Phaser.Scene {
     
   }
   preload() {
-    var loadingText = this.make.text({
-      x: this.game.config.width / 2,
-      y: this.game.config.height / 2 - 50,
-      text: 'Loading...',
-      style: {fontSize: `20px`, fontFamily: `font1`}
-  }).setOrigin(0.5);
-    var progressBar = this.add.graphics();
-    var progressBox = this.add.graphics();
-    progressBox.fillStyle(0x222222, 0.8);
-    progressBox.fillRect(240, 270, 320, 50);
+    this.load.on('start', function(){
+      this.loadingText = this.make.text({
+        x: this.game.config.width / 2,
+        y: this.game.config.height / 2 - 50,
+        text: 'Loading...',
+        style: {fontSize: `20px`, fontFamily: `font1`}
+    }).setOrigin(0.5);
+  
+      this.progressBar = this.add.graphics();
+      this.progressBox = this.add.graphics();
+      this.progressBox.fillStyle(0x222222, 0.8);
+      this.progressBox.fillRect(240, 270, 320, 50);
+    }.bind(this))
     this.load.on('progress', function (value) {
-      progressBar.clear();
-      progressBar.fillStyle(0xffffff, 1);
-      progressBar.fillRect(250, 280, 300 * value, 30);
-  });
-              
-  this.load.on('complete', function () {
-    progressBar.destroy();
-    progressBox.destroy();
-    loadingText.destroy();
-  });
+        this.progressBar.clear();
+        this.progressBar.fillStyle(0xffffff, 1);
+        this.progressBar.fillRect(250, 280, 300 * value, 30);
+    }.bind(this));
+                
+    this.load.on('complete', function () {
+      this.progressBar.destroy();
+      this.progressBox.destroy();
+      this.loadingText.destroy();
+    }.bind(this));
     this.load.spritesheet('player-ships', 
             './assets/player-ships.png',
             { frameWidth: 8, frameHeight: 8 }
