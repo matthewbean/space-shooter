@@ -71,7 +71,6 @@ export default class Settings extends Phaser.Scene {
     autoFire: false,
     cameraShake:true
   }
-  console.log(this.settings)
   this.menuMove= this.sound.add('menu-move', { volume:this.settings.sfx })
   this.menuSelect= this.sound.add('menu-select', { volume:this.settings.sfx })
 //define menu items
@@ -81,7 +80,6 @@ export default class Settings extends Phaser.Scene {
     {text:'Camera Shake:', name:'cameraShake', value:this.settings.cameraShake, displayValue:this.settings.cameraShake?'ON':'OFF', onSelect: ()=>this.handleBooleanChange(3)},
     {text:'Done', name:'done', value:null, displayValue:'', onSelect: ()=>{this.scene.start('SceneMainMenu',{music:data.music})}}
     ]
-  console.log(this.menuItems)
 
   //create menu items
   

@@ -18,8 +18,6 @@ export default class SceneGameOver extends Phaser.Scene {
     this.load.audio('menu-select', ['menu-select.mp3']);  
   }
   create(data) {
-    // this.scene.start('SceneMain', {character:1})
-    //this.scene.start('CharacterSelect');
     this.settings=JSON.parse(localStorage.getItem('settings')) ??{
       music:1,
       sfx:1,
