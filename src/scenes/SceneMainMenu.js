@@ -83,7 +83,7 @@ export default class SceneMainMenu extends Phaser.Scene {
     this.add.text(20,50, `W/A/S/D: MOVEMENT`, {fontSize: `16px`, fontFamily: `font1`})
     this.add.text(20,80, `SPACE: SHOOT/SELECT`, {fontSize: `16px`, fontFamily: `font1`})
     //create title
-this.title = this.add.text(this.game.config.width*0.5, 200, 'Space Battle', {fontSize: '48px',fontFamily: 'font1' }).setOrigin(0.5);
+this.title = this.add.text(this.game.config.width*0.5, 200, 'Galactor', {fontSize: '48px',fontFamily: 'font1' }).setOrigin(0.5);
 this.selectors=[]
 //define menu items
 this.menuItems=[{text:'Play', onSelect: ()=>{this.scene.start('CharacterSelect');}},{text:'Settings', onSelect: ()=>this.scene.start('Settings', {music:this.theLongestYear})}]
