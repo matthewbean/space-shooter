@@ -4,7 +4,7 @@ export default  [
      damage:1.2,
      startFrame:0
     },
-    {hp:5,
+    {hp:1,
         speed:6,
         damage:1.6,
         startFrame:3

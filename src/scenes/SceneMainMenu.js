@@ -4,7 +4,7 @@ export default class SceneMainMenu extends Phaser.Scene {
   }
   preload(){
     
-  this.load.on('start', function(){
+
     this.loadingText = this.make.text({
       x: this.game.config.width / 2,
       y: this.game.config.height / 2 - 50,
@@ -16,18 +16,14 @@ export default class SceneMainMenu extends Phaser.Scene {
     this.progressBox = this.add.graphics();
     this.progressBox.fillStyle(0x222222, 0.8);
     this.progressBox.fillRect(240, 270, 320, 50);
-  }.bind(this))
+ 
   this.load.on('progress', function (value) {
       this.progressBar.clear();
       this.progressBar.fillStyle(0xffffff, 1);
       this.progressBar.fillRect(250, 280, 300 * value, 30);
   }.bind(this));
               
-  this.load.on('complete', function () {
-    this.progressBar.destroy();
-    this.progressBox.destroy();
-    this.loadingText.destroy();
-  }.bind(this));
+
 
     
     this.load.spritesheet('background', 
@@ -44,6 +40,9 @@ export default class SceneMainMenu extends Phaser.Scene {
     this.load.audio('the-longest-year', ['the-longest-year.mp3']);  
   }
   create(data) {
+    this.progressBar.destroy();
+    this.progressBox.destroy();
+    this.loadingText.destroy();
     this.sound.stopByKey('soundtrack-main')
     this.sound.stopByKey('soundtrack-intro')
 
