@@ -21,7 +21,7 @@ export default  [{
     cost: [300, 500, 750],
     sprite: [5,10,11],
     shopSprite: 35,
-    sound: 'wave', 
+    sound: 'player-laser', 
     speed: 800,
     rotating: false,
     acceleration: 0,
