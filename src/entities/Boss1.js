@@ -14,7 +14,8 @@ export default class CarrierShip extends Entity {
       speed: 800,
     });
     this.shake = this.scene.plugins.get("rexshakepositionplugin").add(this, {
-      magnitudeMode: 0,
+
+      magnitudeMode: 0, 
     });
 
     this.generatePositions = (items) => {
